@@ -10,6 +10,7 @@ public class LevelEnd : MonoBehaviour
         {
             //Then the level is cleared
             GameManager.Instance.ClearedPanelActivation();
+            Move.Instance.Stop();
             this.enabled = false;
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Line : MonoBehaviour
 {
-    public Transform drawingBoard;
+    public RectTransform drawingBoard;
     public GameObject line;
     public Transform mainCameraTransform, camera2Transform;
 
@@ -41,7 +41,7 @@ public class Line : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 fingerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y - CameraFollow.Instance.offset.y);
-            if ((fingerPos.x < Mathf.Abs(drawingBoard.localScale.x / 2f)) && (fingerPos.x > -drawingBoard.localScale.x / 2f) && ((fingerPos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y)) < Mathf.Abs(drawingBoard.localScale.y / 2f)) && ((fingerPos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y)) > -drawingBoard.localScale.y / 2f))
+            if ((fingerPos.x < Mathf.Abs(drawingBoard.rect.width / 2f)) && (fingerPos.x > -drawingBoard.rect.width / 2f) && ((fingerPos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y)) < Mathf.Abs(drawingBoard.rect.height / 2f)) && ((fingerPos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y)) > -drawingBoard.rect.height / 2f))
             {
                 if (mainCameraTransform.childCount > 0)
                     Destroy(mainCameraTransform.GetChild(0).gameObject);
@@ -50,13 +50,16 @@ public class Line : MonoBehaviour
             }
         }
 
+        
+        
         if (Input.GetMouseButton(0))
         {
             if (tempLine != null)
             {
-                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y);
-                Vector2 tempFingerPos = new Vector2(pos.x, pos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y - CameraFollow.Instance.offset.y));
-
+                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+                              new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y);
+                Vector2 tempFingerPos = new Vector2(pos.x,
+                    pos.y + Mathf.Abs(drawingBoardPosInWorldPoint.y - CameraFollow.Instance.offset.y));
                 if (Vector2.Distance(tempFingerPos, fingerPositions[fingerPositions.Count - 1]) > 0.1f)
                     UpdateLine(tempFingerPos);
             }
@@ -172,10 +175,12 @@ public class Line : MonoBehaviour
         edgeCollider.points = fingerPositions.ToArray();
     }
 
-    public void UpdateLine(Vector2 newFingerPos)
+    private void UpdateLine(Vector2 newFingerPos)
     {
-        newFingerPos.x = Mathf.Clamp(newFingerPos.x, -drawingBoard.localScale.x / 2f, drawingBoard.localScale.x / 2f) - drawingBoardPosInWorldPoint.x;
-        newFingerPos.y = Mathf.Clamp(newFingerPos.y, -drawingBoard.localScale.y / 2f, drawingBoard.localScale.y / 2f) - Mathf.Abs(drawingBoardPosInWorldPoint.y);
+        if (!DrawingBoardController.Instance.IsHovering) return;
+        
+        newFingerPos.x -= drawingBoardPosInWorldPoint.x;
+        newFingerPos.y -= Mathf.Abs(drawingBoardPosInWorldPoint.y);
 
         fingerPositions.Add(newFingerPos);
 

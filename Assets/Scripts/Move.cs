@@ -29,16 +29,16 @@ public class Move : MonoBehaviour
 
         if (!canRotate)
         {
-            rb.angularVelocity = 0;     //Stops player
+            rb.angularVelocity = 0;                                 //Stops player
             transform.rotation = Quaternion.identity;
         }
     }
 
     void FixedUpdate()
     {
-        if (canRotate)      //If player can rotate
+        if (canRotate)                                               //If player can rotate
         {
-            rb.angularVelocity = -angularSpeed * 10;        //Adds rotation
+            rb.angularVelocity = -angularSpeed * 10;                 //Adds rotation
 
             if (IsGrounded)
             {
@@ -47,5 +47,12 @@ public class Move : MonoBehaviour
             }
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxVelocityX, maxVelocityX), Mathf.Clamp(rb.velocity.y, -15f, maxVelocityY));     //Clamps velocity
         }
+    }
+
+    public void Stop()
+    {
+        canRotate = false;
+        rb.angularVelocity = 0;                                      //Stops player
+        transform.rotation = Quaternion.identity;
     }
 }

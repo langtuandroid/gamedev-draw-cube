@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     //Please let me know your impressions about the asset by leaving a review, I will appreciate it.
     //----------------------------------------------
 
-    public GameObject startPanel, clearedPanel, skinsPanel, pausedPanel, pauseButton, muteImage, reviveButton, drawingBoard, progressBar;
+    public GameObject startPanel, clearedPanel, skinsPanel, pausedPanel, pauseButton, muteImage, progressBar;
     public TextMeshProUGUI[] levelClearedTexts;
 
     [HideInInspector]
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         skinsPanel.SetActive(false);
         pausedPanel.SetActive(false);
         clearedPanel.SetActive(false);
-        drawingBoard.SetActive(false);
+        DrawingBoardController.Instance.gameObject.SetActive(false);
         progressBar.SetActive(false);
         Line.Instance.enabled = false;
     }
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             startPanel.SetActive(false);
             skinsPanel.SetActive(false);
             pausedPanel.SetActive(false);
-            drawingBoard.SetActive(false);
+            DrawingBoardController.Instance.gameObject.SetActive(false);
             progressBar.SetActive(false);
             Line.Instance.enabled = false;
 
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         startPanel.SetActive(false);
         skinsPanel.SetActive(false);
         pausedPanel.SetActive(true);
-        drawingBoard.SetActive(false);
+        DrawingBoardController.Instance.gameObject.SetActive(false);
         progressBar.SetActive(false);
         Line.Instance.enabled = false;
     }
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
         pauseButton.SetActive(true);
         startPanel.SetActive(false);
         AudioManager.Instance.ButtonClickSound();
-        drawingBoard.SetActive(true);
+        DrawingBoardController.Instance.gameObject.SetActive(true);
         progressBar.SetActive(true);
         Line.Instance.enabled = true;
         Line.Instance.mainCameraTransform.GetChild(0).gameObject.SetActive(true);
@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlayBackgroundMusic();
         pauseButton.SetActive(true);
         pausedPanel.SetActive(false);
-        drawingBoard.SetActive(true);
+        DrawingBoardController.Instance.gameObject.SetActive(true);
         progressBar.SetActive(true);
         Line.Instance.enabled = true;
     }
