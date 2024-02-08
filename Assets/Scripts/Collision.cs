@@ -10,12 +10,12 @@ public class Collision : MonoBehaviour
     {
         if (walkables == (walkables | (1 << collision.gameObject.layer)))
         {
-            Move.Instance.IsGrounded = true;
+            PlayerController.Instance.IsGrounded = true;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Move.Instance.IsGrounded = false;       
+        PlayerController.Instance.IsGrounded = false;       
     }
 }

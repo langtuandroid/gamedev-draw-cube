@@ -1,49 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ProgressBar : MonoBehaviour
 {
-    public Image progressBar;
-    public TextMeshProUGUI tempLevelText, nextLevelText;
+    [SerializeField] private Image progressBar;
+    [SerializeField] private TextMeshProUGUI tempLevelText;
+    [SerializeField] private TextMeshProUGUI nextLevelText;
 
-    public static ProgressBar Instance;
-    public static bool canFill = false;
-    private Transform player, levelEnd;
+    private static bool _isFillabe;
+    private Transform _player;
+    private Transform _levelEnd;
 
-    private float playerStartPosX, levelEndStartPosX;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private float playerStartPosX;
 
     void Start()
     {
-        //Initializations
-        levelEnd = GameObject.FindGameObjectWithTag("LevelEnd").transform;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        _levelEnd = GameObject.FindGameObjectWithTag("LevelEnd").transform;
+        _player = VisiblePlayerController.Instance.transform;
         tempLevelText.text = (SceneManager.GetActiveScene().buildIndex + 1).ToString();
         nextLevelText.text = (SceneManager.GetActiveScene().buildIndex + 2).ToString();
         progressBar.fillAmount = 0f;
 
-        CanFill();
+        IsFillable();
     }
 
-    public void CanFill()
+    private void IsFillable()
     {
-        canFill = true;
-        levelEndStartPosX = levelEnd.transform.position.x;
-        playerStartPosX = player.transform.position.x;
+        _isFillabe = true;
+        playerStartPosX = _player.transform.position.x;
     }
 
     void Update()
     {
-        //Tracks the distance between the player and the end of the level
-        if (canFill)
-            progressBar.fillAmount = ((player.transform.position.x - playerStartPosX) / (levelEnd.transform.position.x - playerStartPosX));
+        if (_isFillabe) progressBar.fillAmount = (_player.transform.position.x - playerStartPosX) / (_levelEnd.transform.position.x - playerStartPosX);
     }
 }

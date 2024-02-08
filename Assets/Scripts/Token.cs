@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class Token : MonoBehaviour
 {
-    public GameObject tokenParticle;
-    public float rotationSpeed = 200f;
+    [SerializeField] private GameObject _tokenParticle;
+    [SerializeField] private float _rotationSpeed = 200f;
 
     void Update()
     {
-        transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);        //Rotates the gameObject on the Y axis    
+        transform.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Line"))     //If token collides with player or line
+        if (collision.CompareTag("Player") || collision.CompareTag("Line"))
         {
-            //Increases tokencounter, spawns particle and destroys gameobject
-            ScoreManager.Instance.IncrementToken();
-            Destroy(Instantiate(tokenParticle, transform.position, Quaternion.identity), 1.2f);
+            ScoreManager.AddToken();
+            Destroy(Instantiate(_tokenParticle, transform.position, Quaternion.identity), 1.2f);
             Destroy(gameObject);
         }
     }

@@ -6,16 +6,14 @@ using UnityEngine.UI;
 
 public class ColorManager : MonoBehaviour
 {
-    //COLORING THE LEVELS ARE AUTOMATICALLY DONE WITH THIS SCRIPT
+    [SerializeField] private Material[] objectMaterials;
+    [SerializeField] private Material backgroundMaterial;
+    [SerializeField] private Color[] backgroundColors;
+    [SerializeField] private Color[] objectColors;
+    [SerializeField] private Image[] progressBarImages;
 
-    public Material[] objectMaterials;
-    public Material backgroundMaterial;
-    public Color[] backgroundColors;
-    public Color[] objectColors;
-    public Image[] progressBarImages;
-
-    private List<Color[]> objectColorArrays;
-    private int nextColorIndex = 0;
+    private List<Color[]> _objectColorArrays;
+    private int _nextColorIndex;
 
     void Start()
     {
@@ -46,24 +44,24 @@ public class ColorManager : MonoBehaviour
 
         #region Creating List for Colors
 
-        objectColorArrays = new List<Color[]>();
+        _objectColorArrays = new List<Color[]>();
 
         for (int i = 0; i < objectColors.Length / 2; i++)
         {
-            objectColorArrays.Add(new Color[2]);
+            _objectColorArrays.Add(new Color[2]);
 
             for (int j = 0; j < 2; j++)
             {
-                objectColorArrays[i][j] = objectColors[nextColorIndex];
-                nextColorIndex++;
+                _objectColorArrays[i][j] = objectColors[_nextColorIndex];
+                _nextColorIndex++;
             }
         }
 
         #endregion
 
         //Changes objectMaterial colors
-        int randomIndex = UnityEngine.Random.Range(0, objectColorArrays.Count);
+        int randomIndex = UnityEngine.Random.Range(0, _objectColorArrays.Count);
         for (int i = 0; i < objectMaterials.Length; i++)
-            objectMaterials[i].color = objectColorArrays[randomIndex][i];
+            objectMaterials[i].color = _objectColorArrays[randomIndex][i];
     }
 }

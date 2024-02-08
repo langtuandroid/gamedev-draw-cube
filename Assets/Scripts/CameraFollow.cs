@@ -1,38 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public float smoothTime = 0.5f;
-
-    private Transform player;
-    private Vector3 velocity;
-
-    [HideInInspector]
-    public Vector3 offset;
-    [HideInInspector]
-    public static Vector3 playerPos;
-
     public static CameraFollow Instance;
+    [SerializeField] private float smoothTime = 0.1f;
+    [SerializeField] private bool isMainCamera = false;
 
+    private Transform _playerTransform;
+    private Vector3 _velocity;
+    private Vector3 _offset;
+    
     private void Awake()
     {
-        Instance = this;
+        if (isMainCamera) Instance = this;
     }
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        offset = transform.position - player.position;
+        _playerTransform = PlayerController.Instance.transform;
+        _offset = transform.position - _playerTransform.position;
     }
-
-
+    
     void LateUpdate()
     {
-        //Smoothly follows the player with the offset
-        transform.position = Vector3.SmoothDamp(transform.position, player.position + offset, ref velocity, smoothTime);
-
-        playerPos = player.position + offset;
+        transform.position = Vector3.SmoothDamp(transform.position, _playerTransform.position + _offset, ref _velocity, smoothTime);
     }
+
+    public Vector3 GetOffset() => _offset;
 }

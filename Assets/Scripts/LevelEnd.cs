@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
@@ -8,10 +6,9 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.CompareTag("Line"))       //If gameobject collides with "Line"
         {
-            //Then the level is cleared
             GameManager.Instance.ClearedPanelActivation();
-            Move.Instance.Stop();
-            this.enabled = false;
+            PlayerController.Instance.StopPlayer();
+            enabled = false;
         }
     }
 }

@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class StaticVariables : MonoBehaviour
 {
-    public static int[] requiredTokensToUnlock = { 0, 15, 30};
-    
+    public static readonly int[] RequiredTokensToUnlockSkin = { 0, 15, 30};
 }

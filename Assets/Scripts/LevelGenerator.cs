@@ -8,46 +8,46 @@ public class LevelGenerator : MonoBehaviour
     #region Variables
 
     [Header("Level Generation")]
-    public bool generateLevel = false;
-    public bool resetLevel = false;
-    public bool deleteLastSpawned = false;
+    [SerializeField] private bool generateLevel = false;
+    [SerializeField] private bool resetLevel = false;
+    [SerializeField] private bool deleteLastSpawned = false;
 
     [Header("Generation Properties")]
     [Space]
     [Tooltip("You can olny change this if there are no spawned cubes")]
-    public bool generateAtEnd = true;
-    public bool generateOnX = true;
-    public bool add3DMeshCollider = false;
+    [SerializeField] private bool generateAtEnd = true;
+    [SerializeField] private bool generateOnX = true;
+    [SerializeField] private bool add3DMeshCollider = false;
 
     [Header("Cube Properties")]
     [Space]
     [Tooltip("How many cubes do you want to spawn")]
-    public int cubesPerPattern;
+    [SerializeField] private int cubesPerPattern;
     [Tooltip("Index of the curve which you would like to spawn")]
     [Range(0, 20)]
-    public int whichPattern = 0;
+    [SerializeField] private int whichPattern = 0;
 
     [Range(0.25f, 1.5f)]
-    public float cubeLength = 0.5f;
+    [SerializeField] private float cubeLength = 0.5f;
     [Range(3f, 20f)]
-    public float heightMultiplier = 10f;
+    [SerializeField] private float heightMultiplier = 10f;
 
     [Space]
     [Tooltip("You can add new patterns here")]
-    public AnimationCurve[] cubePatterns;
-    public Material[] materials;
-    public GameObject cube;
+    [SerializeField] private AnimationCurve[] cubePatterns;
+    [SerializeField] private Material[] materials;
+    [SerializeField] private GameObject cube;
 
-    private Vector3 startPos, cubesStartPos;
-    private float riseBy = 1f;
-    private int generatedPatterns = 0;
+    private Vector3 _startPos, _cubesStartPos;
+    private float _riseBy = 1f;
+    private int _generatedPatterns = 0;
 
-    private List<GameObject> cubeHolders = new List<GameObject>();
-    private List<Vector3> tempPositions = new List<Vector3>();
+    private List<GameObject> _cubeHolders = new();
+    private List<Vector3> _tempPositions = new();
 
-    private int tempMaterialIndex = 0;
-    private bool tempGenerateAtEndVariable = false;
-    private GameObject cubeHolder, tempCube;
+    private int _tempMaterialIndex = 0;
+    private bool _tempGenerateAtEndVariable = false;
+    private GameObject _cubeHolder, _tempCube;
 
     #endregion
 
@@ -59,73 +59,73 @@ public class LevelGenerator : MonoBehaviour
         {
             generateLevel = false;
 
-            if (generatedPatterns == 0)     //If this is the first spawn
+            if (_generatedPatterns == 0)     //If this is the first spawn
             {
-                tempGenerateAtEndVariable = generateAtEnd;
-                cubesStartPos = transform.position;
+                _tempGenerateAtEndVariable = generateAtEnd;
+                _cubesStartPos = transform.position;
             }
 
             //Spawning the parent of the cubes
-            if (tempGenerateAtEndVariable)
+            if (_tempGenerateAtEndVariable)
             {
-                cubeHolder = Instantiate(new GameObject(), transform.position, Quaternion.identity);
-                cubeHolder.name = "Cubes " + generatedPatterns.ToString();
-                cubeHolders.Add(cubeHolder);
+                _cubeHolder = Instantiate(new GameObject(), transform.position, Quaternion.identity);
+                _cubeHolder.name = "Cubes " + _generatedPatterns.ToString();
+                _cubeHolders.Add(_cubeHolder);
                 DestroyImmediate(GameObject.Find("New Game Object"));
             }
             else
             {
-                Instantiate(new GameObject("Cubes " + generatedPatterns), transform);
-                DestroyImmediate(GameObject.Find("Cubes " + generatedPatterns.ToString()));
+                Instantiate(new GameObject("Cubes " + _generatedPatterns), transform);
+                DestroyImmediate(GameObject.Find("Cubes " + _generatedPatterns.ToString()));
             }
 
-            tempPositions.Add(startPos = transform.position);
+            _tempPositions.Add(_startPos = transform.position);
 
             for (int i = 0; i < cubesPerPattern; i++)
             {
-                //Calculates riseBy by evaluating the selected pattern curve
-                riseBy = (cubePatterns[whichPattern].Evaluate((float)i / (float)cubesPerPattern) - cubePatterns[whichPattern].Evaluate((float)(i - 1) / (float)cubesPerPattern)) * heightMultiplier;
+                //Calculates _riseBy by evaluating the selected pattern curve
+                _riseBy = (cubePatterns[whichPattern].Evaluate((float)i / (float)cubesPerPattern) - cubePatterns[whichPattern].Evaluate((float)(i - 1) / (float)cubesPerPattern)) * heightMultiplier;
 
                 //Choosing material
-                if (tempMaterialIndex + 1 < materials.Length)
-                    tempMaterialIndex++;
+                if (_tempMaterialIndex + 1 < materials.Length)
+                    _tempMaterialIndex++;
                 else
-                    tempMaterialIndex = 0;
+                    _tempMaterialIndex = 0;
 
                 //Spawning the cube
-                if (tempGenerateAtEndVariable)
-                    tempCube = Instantiate(cube, cubeHolder.transform);
+                if (_tempGenerateAtEndVariable)
+                    _tempCube = Instantiate(cube, _cubeHolder.transform);
                 else
-                    tempCube = Instantiate(cube, transform.GetChild(generatedPatterns).transform);
+                    _tempCube = Instantiate(cube, transform.GetChild(_generatedPatterns).transform);
                 //Creating the cube and changing its position
-                tempCube.GetComponent<MeshGenerator>().Activate(generateOnX, add3DMeshCollider, riseBy, cubeLength, materials[tempMaterialIndex]);
-                tempCube.transform.localPosition = new Vector3(transform.position.x - startPos.x, transform.position.y - startPos.y, transform.position.z - startPos.z);
+                _tempCube.GetComponent<MeshGenerator>().Activate(generateOnX, add3DMeshCollider, _riseBy, cubeLength, materials[_tempMaterialIndex]);
+                _tempCube.transform.localPosition = new Vector3(transform.position.x - _startPos.x, transform.position.y - _startPos.y, transform.position.z - _startPos.z);
 
                 //Moving this gameobject forward or right
                 if (generateOnX)
-                    transform.position = new Vector3(transform.position.x + cubeLength, transform.position.y + riseBy, transform.position.z);
+                    transform.position = new Vector3(transform.position.x + cubeLength, transform.position.y + _riseBy, transform.position.z);
                 else
-                    transform.position = new Vector3(transform.position.x, transform.position.y + riseBy, transform.position.z + cubeLength);
+                    transform.position = new Vector3(transform.position.x, transform.position.y + _riseBy, transform.position.z + cubeLength);
             }
-            if (!tempGenerateAtEndVariable)
-                transform.GetChild(generatedPatterns).position = cubesStartPos;
+            if (!_tempGenerateAtEndVariable)
+                transform.GetChild(_generatedPatterns).position = _cubesStartPos;
 
-            generatedPatterns++;
+            _generatedPatterns++;
         }
 
         if (resetLevel)     //If Reset Level "button" is clicked in the Inspector
         {
             resetLevel = false;
-            transform.position = cubesStartPos;
+            transform.position = _cubesStartPos;
             ResetLevel();
         }
 
         if (deleteLastSpawned)     //If Delete Last Spawned "button" is clicked in the Inspector
         {
             deleteLastSpawned = false;
-            if (generatedPatterns > 0)
+            if (_generatedPatterns > 0)
             {
-                transform.position = tempPositions[generatedPatterns - 1];
+                transform.position = _tempPositions[_generatedPatterns - 1];
                 DeleteLastSpawned();
             }
             else
@@ -135,27 +135,27 @@ public class LevelGenerator : MonoBehaviour
 
     void DeleteLastSpawned()
     {
-        if (tempGenerateAtEndVariable)
+        if (_tempGenerateAtEndVariable)
         {
-            DestroyImmediate(cubeHolders[generatedPatterns - 1]);
-            cubeHolders.RemoveAt(generatedPatterns - 1);
+            DestroyImmediate(_cubeHolders[_generatedPatterns - 1]);
+            _cubeHolders.RemoveAt(_generatedPatterns - 1);
         }
         else
-            DestroyImmediate(transform.GetChild(generatedPatterns - 1).gameObject);
+            DestroyImmediate(transform.GetChild(_generatedPatterns - 1).gameObject);
 
-        tempPositions.RemoveAt(generatedPatterns - 1);
-        generatedPatterns--;
+        _tempPositions.RemoveAt(_generatedPatterns - 1);
+        _generatedPatterns--;
     }
 
     void ResetLevel()
     {
-        generatedPatterns = 0;
+        _generatedPatterns = 0;
 
-        if (tempGenerateAtEndVariable)
+        if (_tempGenerateAtEndVariable)
         {
-            int cubeHoldersCount = cubeHolders.Count;
-            for (int i = 0; i < cubeHoldersCount; i++)        //Loops through the cubeHolders
-                DestroyImmediate(cubeHolders[i]);       //And destroys the object attached to them
+            int cubeHoldersCount = _cubeHolders.Count;
+            for (int i = 0; i < cubeHoldersCount; i++)        //Loops through the _cubeHolders
+                DestroyImmediate(_cubeHolders[i]);       //And destroys the object attached to them
         }
 
         else
@@ -166,7 +166,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         //Clears the lists
-        cubeHolders.Clear();
-        tempPositions.Clear();
+        _cubeHolders.Clear();
+        _tempPositions.Clear();
     }
 }

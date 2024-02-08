@@ -1,52 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject startPanel, clearedPanel, skinsPanel, pausedPanel, pauseButton, muteImage, progressBar;
+    [SerializeField] private TextMeshProUGUI[] levelClearedTexts;
 
-    //----------------------------------------------
-    //Thank you for purchasing the asset! If you have any questions/suggestions, don't hesitate to contact me!
-    //E-mail: ragendom@gmail.com
-    //Please let me know your impressions about the asset by leaving a review, I will appreciate it.
-    //----------------------------------------------
-
-    public GameObject startPanel, clearedPanel, skinsPanel, pausedPanel, pauseButton, muteImage, progressBar;
-    public TextMeshProUGUI[] levelClearedTexts;
-
-    [HideInInspector]
-    public bool gameIsOver = false;
+    private bool _isGameOver = false;
 
     public static GameManager Instance;
-    private GameObject confetti;
+    private bool _cleared;
+    private GameObject _confetti;
+
+    public bool IsGameOver => _isGameOver;
 
     private void Awake()
     {
         Instance = this;
-        confetti = GameObject.FindGameObjectWithTag("Confetti");
-        confetti.SetActive(false);
+        _confetti = GameObject.FindGameObjectWithTag("Confetti");
+        _confetti.SetActive(false);
     }
 
-    void Start()
+    private void Start()
     {
-        if ((Time.time == Time.timeSinceLevelLoad))
-            SceneManager.LoadScene(PlayerPrefs.GetInt("Level", 0));
+        if (Time.time == Time.timeSinceLevelLoad) SceneManager.LoadScene(PlayerPrefs.GetInt("Level", 0));
 
+        Time.timeScale = 1;
         StartPanelActivation();
         AudioCheck();
     }
 
-    public void Initialize()
+    private void StartPanelActivation()
     {
         pauseButton.SetActive(false);
-    }
-
-    public void StartPanelActivation()
-    {
-        Initialize();
         startPanel.SetActive(true);
         skinsPanel.SetActive(false);
         pausedPanel.SetActive(false);
@@ -56,13 +43,11 @@ public class GameManager : MonoBehaviour
         Line.Instance.enabled = false;
     }
 
-    private bool cleared = false;
-
     public void ClearedPanelActivation()
     {
-        if (!cleared)
+        if (!_cleared)
         {
-            cleared = true;
+            _cleared = true;
             Time.timeScale = 1f;
             AudioManager.Instance.LevelClearedSound();
             pauseButton.SetActive(false);
@@ -75,20 +60,20 @@ public class GameManager : MonoBehaviour
             Line.Instance.enabled = false;
 
             for (int i = 0; i < levelClearedTexts.Length; i++)
-                levelClearedTexts[i].text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex + 1).ToString() + "\nCLEARED";
+                levelClearedTexts[i].text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex + 1) + "\nCLEARED";
 
-            confetti.SetActive(true);
+            _confetti.SetActive(true);
         }
     }
 
-    public void SkinsPanelActivation()
+    private void SkinsPanelActivation()
     {
         startPanel.SetActive(false);
         skinsPanel.SetActive(true);
         pausedPanel.SetActive(false);
     }
 
-    public void PausedPanelActivation()
+    private void PausedPanelActivation()
     {
         startPanel.SetActive(false);
         skinsPanel.SetActive(false);
@@ -98,7 +83,7 @@ public class GameManager : MonoBehaviour
         Line.Instance.enabled = false;
     }
 
-    public void AudioCheck()
+    private void AudioCheck()
     {
         if (PlayerPrefs.GetInt("Audio", 0) == 0)
         {
@@ -122,7 +107,7 @@ public class GameManager : MonoBehaviour
         DrawingBoardController.Instance.gameObject.SetActive(true);
         progressBar.SetActive(true);
         Line.Instance.enabled = true;
-        Line.Instance.mainCameraTransform.GetChild(0).gameObject.SetActive(true);
+        Line.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
     }
 
     public void RestartButton()
