@@ -20,5 +20,5 @@ public static class ScoreManager
         SetTokens();
     }
 
-    private static void SetTokens() => ScoreController.Instance.SetTokens(PlayerPrefs.GetInt("Token", 0));
+    public static void SetTokens() => ScoreController.Instance.SetTokens(PlayerPrefs.GetInt("Token", 0));
 }

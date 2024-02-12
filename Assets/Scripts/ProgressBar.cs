@@ -19,8 +19,8 @@ public class ProgressBar : MonoBehaviour
     {
         _levelEnd = GameObject.FindGameObjectWithTag("LevelEnd").transform;
         _player = VisiblePlayerController.Instance.transform;
-        tempLevelText.text = (SceneManager.GetActiveScene().buildIndex + 1).ToString();
-        nextLevelText.text = (SceneManager.GetActiveScene().buildIndex + 2).ToString();
+        tempLevelText.text = (PlayerPrefs.GetInt("CurrentVisibleLevel", 0) + 1).ToString();//SceneManager.GetActiveScene().buildIndex + 1)).ToString();
+        nextLevelText.text = (PlayerPrefs.GetInt("CurrentVisibleLevel", 0) + 2).ToString();//(SceneManager.GetActiveScene().buildIndex + 2).ToString();
         progressBar.fillAmount = 0f;
 
         IsFillable();

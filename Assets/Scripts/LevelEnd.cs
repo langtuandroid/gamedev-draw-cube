@@ -6,7 +6,7 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.CompareTag("Line"))       //If gameobject collides with "Line"
         {
-            GameManager.Instance.ClearedPanelActivation();
+            GameManager.Instance.ShowWinPanel();
             PlayerController.Instance.StopPlayer();
             enabled = false;
         }

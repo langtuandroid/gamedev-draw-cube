@@ -7,6 +7,7 @@ namespace UiControllers
 {
     public class SkinsPanelController : MonoBehaviour
     {
+        [SerializeField] private GameObject _panelItself;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _skin1Button;
         [SerializeField] private Button _skin2Button;
@@ -22,11 +23,8 @@ namespace UiControllers
         
         private void Start()
         {
-            if (PlayerPrefs.HasKey(SkinManager.key_Skin + "0" + SkinManager.key_Unlocked))
-            {
-                PlayerPrefs.SetInt(SkinManager.key_Skin + "0" + SkinManager.key_Unlocked, 1);
-            }
-            
+            PlayerPrefs.SetInt(SkinManager.key_Skin + "0" + SkinManager.key_Unlocked, 1);
+
             currentVisiblePlayer = VisiblePlayerController.Instance;
             _playerMesh = currentVisiblePlayer.GetComponent<MeshFilter>();
             _playerRenderer = currentVisiblePlayer.GetComponent<MeshRenderer>();
@@ -67,12 +65,17 @@ namespace UiControllers
             
             for (int i = 0; i < _lockedSkinImages.Length; i++)
             {
-                if (PlayerPrefs.GetInt(SkinManager.key_Skin + i + SkinManager.key_Unlocked, 0) == 1)
+                var isOpened = PlayerPrefs.GetInt(SkinManager.key_Skin + i + SkinManager.key_Unlocked, 0);
+                if (isOpened == 1)
                 {
                     _lockedSkinImages[i].SetActive(false);
                     _requiredTokenTexts[i].gameObject.SetActive(false);
                 }
             }
         }
+
+        public void Hide() => _panelItself.SetActive(false);
+
+        public void Show() => _panelItself.SetActive(true);
     }
 }

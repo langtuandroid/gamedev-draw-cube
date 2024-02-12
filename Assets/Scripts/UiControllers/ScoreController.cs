@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace UiControllers
@@ -15,6 +14,7 @@ namespace UiControllers
         private void Start()
         {
             _tokenTextAnimation = _tokenText.gameObject.GetComponent<Animation>();
+            ScoreManager.SetTokens();
         }
 
         public void SetTokens(int tokens) => _tokenText.text = tokens.ToString();

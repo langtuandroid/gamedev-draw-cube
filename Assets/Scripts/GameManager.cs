@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
+using UiControllers;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject startPanel, clearedPanel, skinsPanel, pausedPanel, pauseButton, muteImage, progressBar;
+    [SerializeField] private GameObject startPanel, clearedPanel, pausedPanel, pauseButton, muteImage, progressBar;
+    [SerializeField] private SkinsPanelController skinsPanel;
     [SerializeField] private TextMeshProUGUI[] levelClearedTexts;
 
     private bool _isGameOver = false;
@@ -24,7 +26,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (Time.time == Time.timeSinceLevelLoad) SceneManager.LoadScene(PlayerPrefs.GetInt("Level", 0));
+        if (Time.time == Time.timeSinceLevelLoad)
+        {
+            var visibleLevel = PlayerPrefs.GetInt("CurrentVisibleLevel", 0);
+            var levelIndex = PlayerPrefs.GetInt("Level", 0);
+            if (SceneManager.sceneCountInBuildSettings <= visibleLevel)
+            {
+                levelIndex = Random.Range(0, 29);
+                visibleLevel++;
+            }
+            else
+            {
+                visibleLevel = levelIndex;
+            }
+            PlayerPrefs.SetInt("Level", levelIndex);
+            PlayerPrefs.SetInt("CurrentVisibleLevel", visibleLevel);
+            SceneManager.LoadScene(levelIndex);
+        }
 
         Time.timeScale = 1;
         StartPanelActivation();
@@ -35,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         pauseButton.SetActive(false);
         startPanel.SetActive(true);
-        skinsPanel.SetActive(false);
+        skinsPanel.Hide();
         pausedPanel.SetActive(false);
         clearedPanel.SetActive(false);
         DrawingBoardController.Instance.gameObject.SetActive(false);
@@ -43,17 +61,25 @@ public class GameManager : MonoBehaviour
         Line.Instance.enabled = false;
     }
 
-    public void ClearedPanelActivation()
+    public void ShowWinPanel()
     {
         if (!_cleared)
         {
+            int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            var visibleLevel = PlayerPrefs.GetInt("CurrentVisibleLevel", 0);
+            
+            if (SceneManager.sceneCountInBuildSettings <= visibleLevel) nextLevelIndex = Random.Range(0, 29);
+        
+            PlayerPrefs.SetInt("Level", nextLevelIndex);
+            PlayerPrefs.SetInt("CurrentVisibleLevel", visibleLevel + 1);
+            
             _cleared = true;
             Time.timeScale = 1f;
             AudioManager.Instance.LevelClearedSound();
             pauseButton.SetActive(false);
             clearedPanel.SetActive(true);
             startPanel.SetActive(false);
-            skinsPanel.SetActive(false);
+            skinsPanel.Hide();
             pausedPanel.SetActive(false);
             DrawingBoardController.Instance.gameObject.SetActive(false);
             progressBar.SetActive(false);
@@ -69,14 +95,14 @@ public class GameManager : MonoBehaviour
     private void SkinsPanelActivation()
     {
         startPanel.SetActive(false);
-        skinsPanel.SetActive(true);
+        skinsPanel.Show();
         pausedPanel.SetActive(false);
     }
 
     private void PausedPanelActivation()
     {
         startPanel.SetActive(false);
-        skinsPanel.SetActive(false);
+        skinsPanel.Hide();
         pausedPanel.SetActive(true);
         DrawingBoardController.Instance.gameObject.SetActive(false);
         progressBar.SetActive(false);
@@ -168,12 +194,10 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.ButtonClickSound();
         int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (SceneManager.sceneCountInBuildSettings <= nextLevelIndex)
-            Debug.LogWarning("THERE ARE NO MORE SCENES!");
-        else
-        {
-            PlayerPrefs.SetInt("Level", nextLevelIndex);
-            SceneManager.LoadScene(nextLevelIndex);
-        }
+        if (SceneManager.sceneCountInBuildSettings <= PlayerPrefs.GetInt("CurrentVisibleLevel", 0)) 
+            nextLevelIndex = Random.Range(0, 29);
+        
+        PlayerPrefs.SetInt("Level", nextLevelIndex);
+        SceneManager.LoadScene(nextLevelIndex);
     }
 }

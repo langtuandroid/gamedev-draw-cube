@@ -10,6 +10,6 @@ public class PausePanelController : MonoBehaviour
     private void Start()
     {
         _restartButton.onClick.AddListener(GameManager.Instance.RestartButton);
-        _playButton.onClick.AddListener(GameManager.Instance.HomeButton);
+        _playButton.onClick.AddListener(GameManager.Instance.ResumeButton);
     }
 }
