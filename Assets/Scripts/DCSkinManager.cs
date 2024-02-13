@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class SkinManager
+public static class DCSkinManager
 {
     public const string key_Skin = "Skin";
     public const string key_Unlocked = "Unlocked";
@@ -9,23 +9,23 @@ public static class SkinManager
     {
         if (PlayerPrefs.GetInt(key_Skin + index + key_Unlocked, 0) == 0)
         {
-            if (PlayerPrefs.GetInt("Token", 0) < StaticVariables.RequiredTokensToUnlockSkin[index])
+            if (PlayerPrefs.GetInt("Token", 0) < DCStaticVariables.RequiredTokensToUnlockSkin[index])
             {
-                AudioManager.Instance.NotEnoughTokenSound();
+                DCAudioManager.Instance.NotEnoughTokenSound();
                 return false;
             }
             else
             {
                 PlayerPrefs.SetInt(key_Skin + index + key_Unlocked, 1);
-                ScoreManager.RemoveToken(StaticVariables.RequiredTokensToUnlockSkin[index]);
+                DCScoreManager.RemoveToken(DCStaticVariables.RequiredTokensToUnlockSkin[index]);
                 PlayerPrefs.SetInt(key_Skin, index);
-                AudioManager.Instance.SkinSwitchSound();
+                DCAudioManager.Instance.SkinSwitchSound();
             }
         }
         else
         {
             PlayerPrefs.SetInt(key_Skin, index);
-            AudioManager.Instance.SkinSwitchSound();
+            DCAudioManager.Instance.SkinSwitchSound();
         }
         return true;
     }

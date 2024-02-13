@@ -7,6 +7,6 @@ public class StartButtonController : MonoBehaviour
     private void Start()
     {
         _thisButton = GetComponent<Button>();
-        _thisButton.onClick.AddListener(GameManager.Instance.StartButton);
+        _thisButton.onClick.AddListener(DCGameManager.Instance.StartButton);
     }
 }

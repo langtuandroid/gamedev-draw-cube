@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UiControllers;
 
-public static class ScoreManager
+public static class DCScoreManager
 {
     public static void AddToken(int countOfToken = 1)
     {
-        if (!GameManager.Instance.IsGameOver)
+        if (!DCGameManager.Instance.IsGameOver)
         {
             PlayerPrefs.SetInt("Token", PlayerPrefs.GetInt("Token", 0) + countOfToken);
             SetTokens();
             ScoreController.Instance.PlayAnimation();
-            AudioManager.Instance.TokenSound();
+            DCAudioManager.Instance.TokenSound();
         }
     }
 

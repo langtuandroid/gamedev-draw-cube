@@ -9,6 +9,6 @@ public class SkinsButtonController : MonoBehaviour
     private void Start()
     {
         _thisButton = GetComponent<Button>();
-        _thisButton.onClick.AddListener(GameManager.Instance.SkinsButton);
+        _thisButton.onClick.AddListener(DCGameManager.Instance.SkinsButton);
     }
 }

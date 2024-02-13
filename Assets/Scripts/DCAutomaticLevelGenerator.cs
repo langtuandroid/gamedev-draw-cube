@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class AutomatizedLevelGenerator : MonoBehaviour
+public class DCAutomaticLevelGenerator : MonoBehaviour
 {
     #region Variables
 
@@ -75,7 +75,7 @@ public class AutomatizedLevelGenerator : MonoBehaviour
 
                     //Spawning the cube
                     GameObject tempCube = Instantiate(cube, transform);
-                    tempCube.GetComponent<MeshGenerator>().Activate(generateOnX, add3DMeshCollider, riseBy, cubeLength, materials[tempMaterialIndex]);
+                    tempCube.GetComponent<DCMeshGenerator>().Activate(generateOnX, add3DMeshCollider, riseBy, cubeLength, materials[tempMaterialIndex]);
                     tempCube.transform.localPosition = new Vector3(transform.position.x - startPos.x, transform.position.y - startPos.y, transform.position.z - startPos.z);
 
                     //Moving this gameobject forward or right

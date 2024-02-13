@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class DCCameraFollow : MonoBehaviour
 {
-    public static CameraFollow Instance;
+    public static DCCameraFollow Instance;
     [SerializeField] private float smoothTime = 0.1f;
     [SerializeField] private bool isMainCamera = false;
 
@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        _playerTransform = PlayerController.Instance.transform;
+        _playerTransform = DCPlayerController.Instance.transform;
         _offset = transform.position - _playerTransform.position;
     }
     

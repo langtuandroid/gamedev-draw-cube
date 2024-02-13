@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class Bridge : MonoBehaviour
+public class DCBridgeController : MonoBehaviour
 {
     public GameObject part;
     public Material[] partMaterials;

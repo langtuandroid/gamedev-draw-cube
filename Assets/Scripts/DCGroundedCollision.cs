@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collision : MonoBehaviour
+public class DCGroundedCollision : MonoBehaviour
 {
     public LayerMask walkables;
 
@@ -10,12 +10,12 @@ public class Collision : MonoBehaviour
     {
         if (walkables == (walkables | (1 << collision.gameObject.layer)))
         {
-            PlayerController.Instance.IsGrounded = true;
+            DCPlayerController.Instance.IsGrounded = true;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        PlayerController.Instance.IsGrounded = false;       
+        DCPlayerController.Instance.IsGrounded = false;       
     }
 }

@@ -17,20 +17,20 @@ namespace UiControllers
         [SerializeField] private GameObject _notEnoughTokensAnimationText;
         [SerializeField] private PlayerSkinsScriptableObject _playerSkinsScriptableObject;
         
-        private VisiblePlayerController currentVisiblePlayer;
+        private DCVisiblePlayerController currentVisiblePlayer;
         private MeshFilter _playerMesh;
         private MeshRenderer _playerRenderer, _cylinderRenderer;
         
         private void Start()
         {
-            PlayerPrefs.SetInt(SkinManager.key_Skin + "0" + SkinManager.key_Unlocked, 1);
+            PlayerPrefs.SetInt(DCSkinManager.key_Skin + "0" + DCSkinManager.key_Unlocked, 1);
 
-            currentVisiblePlayer = VisiblePlayerController.Instance;
+            currentVisiblePlayer = DCVisiblePlayerController.Instance;
             _playerMesh = currentVisiblePlayer.GetComponent<MeshFilter>();
             _playerRenderer = currentVisiblePlayer.GetComponent<MeshRenderer>();
             _cylinderRenderer = currentVisiblePlayer.transform.GetChild(0).GetComponent<MeshRenderer>();
             
-            _closeButton.onClick.AddListener(GameManager.Instance.SkinsBackButton);
+            _closeButton.onClick.AddListener(DCGameManager.Instance.SkinsBackButton);
             _skin1Button.onClick.AddListener(() => OnSelectSkinButtonClick(0));
             _skin2Button.onClick.AddListener(() => OnSelectSkinButtonClick(1));
             _skin3Button.onClick.AddListener(() => OnSelectSkinButtonClick(2));
@@ -41,11 +41,11 @@ namespace UiControllers
 
         private void OnSelectSkinButtonClick(int index)
         {
-            if (!SkinManager.SkinSelect(index)) _notEnoughTokensAnimationText.GetComponent<Animation>().Play();
+            if (!DCSkinManager.SkinSelect(index)) _notEnoughTokensAnimationText.GetComponent<Animation>().Play();
             
             for (int i = 0; i < _lockedSkinImages.Length; i++)
             {
-                if (PlayerPrefs.GetInt(SkinManager.key_Skin + i + SkinManager.key_Unlocked, 0) == 1) _lockedSkinImages[i].SetActive(false);
+                if (PlayerPrefs.GetInt(DCSkinManager.key_Skin + i + DCSkinManager.key_Unlocked, 0) == 1) _lockedSkinImages[i].SetActive(false);
             }
 
             SetSkinPriceTexts();
@@ -54,18 +54,18 @@ namespace UiControllers
 
         private void EnableSelectedSkin()
         {
-            _playerRenderer.material.color = _cylinderRenderer.material.color = _playerSkinsScriptableObject.GetColorByIndex(PlayerPrefs.GetInt(SkinManager.key_Skin, 0));
-            _playerMesh.mesh = _playerSkinsScriptableObject.GetMeshByIndex(PlayerPrefs.GetInt(SkinManager.key_Skin, 0));
+            _playerRenderer.material.color = _cylinderRenderer.material.color = _playerSkinsScriptableObject.GetColorByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
+            _playerMesh.mesh = _playerSkinsScriptableObject.GetMeshByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
         }
         
         private void SetSkinPriceTexts()
         {
             for (int i = 0; i < _requiredTokenTexts.Length; i++)
-                _requiredTokenTexts[i].text = StaticVariables.RequiredTokensToUnlockSkin[i].ToString();
+                _requiredTokenTexts[i].text = DCStaticVariables.RequiredTokensToUnlockSkin[i].ToString();
             
             for (int i = 0; i < _lockedSkinImages.Length; i++)
             {
-                var isOpened = PlayerPrefs.GetInt(SkinManager.key_Skin + i + SkinManager.key_Unlocked, 0);
+                var isOpened = PlayerPrefs.GetInt(DCSkinManager.key_Skin + i + DCSkinManager.key_Unlocked, 0);
                 if (isOpened == 1)
                 {
                     _lockedSkinImages[i].SetActive(false);

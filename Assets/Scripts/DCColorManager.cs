@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorManager : MonoBehaviour
+public class DCColorManager : MonoBehaviour
 {
     [SerializeField] private Material[] objectMaterials;
     [SerializeField] private Material backgroundMaterial;

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DrawingBoardController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DCDrawingBoardController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public static DrawingBoardController Instance;
+    public static DCDrawingBoardController Instance;
     [HideInInspector] public bool IsHovering;
 
     void Awake() => Instance = this;

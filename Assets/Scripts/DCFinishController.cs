@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class LevelEnd : MonoBehaviour
+public class DCFinishController : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Line"))       //If gameobject collides with "Line"
         {
-            GameManager.Instance.ShowWinPanel();
-            PlayerController.Instance.StopPlayer();
+            DCGameManager.Instance.ShowWinPanel();
+            DCPlayerController.Instance.StopPlayer();
             enabled = false;
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public class DCAudioManager : MonoBehaviour {
 
     //------------------------CREDITS----------------------------
     //Background music by Eric Matyas: http://www.soundimage.org
@@ -13,9 +13,9 @@ public class AudioManager : MonoBehaviour {
     private AudioSource backgroundMusic, tokenSound, levelClearedSound, buttonClickSound, skinSwitchSound, notEnoughTokenSound;
 
     [HideInInspector]
-    public bool soundIsOn = true;       //GameManager script might modify this value
+    public bool soundIsOn = true;       //DCGameManager script might modify this value
 
-    public static AudioManager Instance;
+    public static DCAudioManager Instance;
 
     private void Awake()
     {

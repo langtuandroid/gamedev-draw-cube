@@ -9,7 +9,7 @@ namespace UiControllers
         private void Start()
         {
             _thisButton = GetComponent<Button>();
-            _thisButton.onClick.AddListener(GameManager.Instance.NextLevelButton);
+            _thisButton.onClick.AddListener(DCGameManager.Instance.NextLevelButton);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class LevelGenerator : MonoBehaviour
+public class DCLevelGenerator : MonoBehaviour
 {
     #region Variables
 
@@ -98,7 +98,7 @@ public class LevelGenerator : MonoBehaviour
                 else
                     _tempCube = Instantiate(cube, transform.GetChild(_generatedPatterns).transform);
                 //Creating the cube and changing its position
-                _tempCube.GetComponent<MeshGenerator>().Activate(generateOnX, add3DMeshCollider, _riseBy, cubeLength, materials[_tempMaterialIndex]);
+                _tempCube.GetComponent<DCMeshGenerator>().Activate(generateOnX, add3DMeshCollider, _riseBy, cubeLength, materials[_tempMaterialIndex]);
                 _tempCube.transform.localPosition = new Vector3(transform.position.x - _startPos.x, transform.position.y - _startPos.y, transform.position.z - _startPos.z);
 
                 //Moving this gameobject forward or right

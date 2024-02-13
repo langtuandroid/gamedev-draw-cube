@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class DCPlayerController : MonoBehaviour
 {
-    public static PlayerController Instance;
+    public static DCPlayerController Instance;
 
     [SerializeField] private float _angularSpeed = 43f;
     [SerializeField] private float _maxVelocityX = 12f;

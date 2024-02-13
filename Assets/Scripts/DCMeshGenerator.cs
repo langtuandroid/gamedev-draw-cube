@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(PolygonCollider2D))]
 [ExecuteInEditMode]
-public class MeshGenerator : MonoBehaviour
+public class DCMeshGenerator : MonoBehaviour
 {
     #region Variables
 

@@ -3,7 +3,7 @@ using TMPro;
 using UiControllers;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class DCGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject startPanel, clearedPanel, pausedPanel, pauseButton, muteImage, progressBar;
     [SerializeField] private SkinsPanelController skinsPanel;
@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private bool _isGameOver = false;
 
-    public static GameManager Instance;
+    public static DCGameManager Instance;
     private bool _cleared;
     private GameObject _confetti;
 
@@ -29,17 +29,10 @@ public class GameManager : MonoBehaviour
         if (Time.time == Time.timeSinceLevelLoad)
         {
             var visibleLevel = PlayerPrefs.GetInt("CurrentVisibleLevel", 0);
-            var levelIndex = PlayerPrefs.GetInt("Level", 0);
-            if (SceneManager.sceneCountInBuildSettings <= visibleLevel)
-            {
-                levelIndex = Random.Range(0, 29);
-                visibleLevel++;
-            }
-            else
-            {
-                visibleLevel = levelIndex;
-            }
-            PlayerPrefs.SetInt("Level", levelIndex);
+            int levelIndex = PlayerPrefs.GetInt("Level", 0);
+            
+            if (SceneManager.sceneCountInBuildSettings > visibleLevel) visibleLevel = levelIndex;
+            
             PlayerPrefs.SetInt("CurrentVisibleLevel", visibleLevel);
             SceneManager.LoadScene(levelIndex);
         }
@@ -56,9 +49,9 @@ public class GameManager : MonoBehaviour
         skinsPanel.Hide();
         pausedPanel.SetActive(false);
         clearedPanel.SetActive(false);
-        DrawingBoardController.Instance.gameObject.SetActive(false);
+        DCDrawingBoardController.Instance.gameObject.SetActive(false);
         progressBar.SetActive(false);
-        Line.Instance.enabled = false;
+        DCLineWorker.Instance.enabled = false;
     }
 
     public void ShowWinPanel()
@@ -75,15 +68,15 @@ public class GameManager : MonoBehaviour
             
             _cleared = true;
             Time.timeScale = 1f;
-            AudioManager.Instance.LevelClearedSound();
+            DCAudioManager.Instance.LevelClearedSound();
             pauseButton.SetActive(false);
             clearedPanel.SetActive(true);
             startPanel.SetActive(false);
             skinsPanel.Hide();
             pausedPanel.SetActive(false);
-            DrawingBoardController.Instance.gameObject.SetActive(false);
+            DCDrawingBoardController.Instance.gameObject.SetActive(false);
             progressBar.SetActive(false);
-            Line.Instance.enabled = false;
+            DCLineWorker.Instance.enabled = false;
 
             for (int i = 0; i < levelClearedTexts.Length; i++)
                 levelClearedTexts[i].text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex + 1) + "\nCLEARED";
@@ -104,9 +97,9 @@ public class GameManager : MonoBehaviour
         startPanel.SetActive(false);
         skinsPanel.Hide();
         pausedPanel.SetActive(true);
-        DrawingBoardController.Instance.gameObject.SetActive(false);
+        DCDrawingBoardController.Instance.gameObject.SetActive(false);
         progressBar.SetActive(false);
-        Line.Instance.enabled = false;
+        DCLineWorker.Instance.enabled = false;
     }
 
     private void AudioCheck()
@@ -114,14 +107,14 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Audio", 0) == 0)
         {
             muteImage.SetActive(false);
-            AudioManager.Instance.soundIsOn = true;
-            AudioManager.Instance.PlayBackgroundMusic();
+            DCAudioManager.Instance.soundIsOn = true;
+            DCAudioManager.Instance.PlayBackgroundMusic();
         }
         else
         {
             muteImage.SetActive(true);
-            AudioManager.Instance.soundIsOn = false;
-            AudioManager.Instance.StopBackgroundMusic();
+            DCAudioManager.Instance.soundIsOn = false;
+            DCAudioManager.Instance.StopBackgroundMusic();
         }
     }
 
@@ -129,28 +122,28 @@ public class GameManager : MonoBehaviour
     {
         pauseButton.SetActive(true);
         startPanel.SetActive(false);
-        AudioManager.Instance.ButtonClickSound();
-        DrawingBoardController.Instance.gameObject.SetActive(true);
+        DCAudioManager.Instance.ButtonClickSound();
+        DCDrawingBoardController.Instance.gameObject.SetActive(true);
         progressBar.SetActive(true);
-        Line.Instance.enabled = true;
-        Line.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
+        DCLineWorker.Instance.enabled = true;
+        DCLineWorker.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
     }
 
     public void RestartButton()
     {
-        AudioManager.Instance.ButtonClickSound();
+        DCAudioManager.Instance.ButtonClickSound();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void SkinsBackButton()
     {
         StartPanelActivation();
-        AudioManager.Instance.ButtonClickSound();
+        DCAudioManager.Instance.ButtonClickSound();
     }
 
     public void AudioButton()
     {
-        AudioManager.Instance.ButtonClickSound();
+        DCAudioManager.Instance.ButtonClickSound();
         if (PlayerPrefs.GetInt("Audio", 0) == 0)
             PlayerPrefs.SetInt("Audio", 1);
         else
@@ -161,26 +154,26 @@ public class GameManager : MonoBehaviour
     public void SkinsButton()
     {
         SkinsPanelActivation();
-        AudioManager.Instance.ButtonClickSound();
+        DCAudioManager.Instance.ButtonClickSound();
     }
 
     public void PauseButton()
     {
         pauseButton.SetActive(false);
         PausedPanelActivation();
-        AudioManager.Instance.StopBackgroundMusic();
+        DCAudioManager.Instance.StopBackgroundMusic();
         Time.timeScale = 0f;
     }
 
     public void ResumeButton()
     {
         Time.timeScale = 1f;
-        AudioManager.Instance.PlayBackgroundMusic();
+        DCAudioManager.Instance.PlayBackgroundMusic();
         pauseButton.SetActive(true);
         pausedPanel.SetActive(false);
-        DrawingBoardController.Instance.gameObject.SetActive(true);
+        DCDrawingBoardController.Instance.gameObject.SetActive(true);
         progressBar.SetActive(true);
-        Line.Instance.enabled = true;
+        DCLineWorker.Instance.enabled = true;
     }
 
     public void HomeButton()
@@ -191,7 +184,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevelButton()
     {
-        AudioManager.Instance.ButtonClickSound();
+        DCAudioManager.Instance.ButtonClickSound();
         int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (SceneManager.sceneCountInBuildSettings <= PlayerPrefs.GetInt("CurrentVisibleLevel", 0)) 

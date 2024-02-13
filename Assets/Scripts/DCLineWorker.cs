@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Line : MonoBehaviour
+public class DCLineWorker : MonoBehaviour
 {
     private RectTransform _drawingBoard;
     [SerializeField] private GameObject linePrefab;
@@ -23,14 +23,14 @@ public class Line : MonoBehaviour
 
     private bool _isFirstDraw = true;
 
-    public static Line Instance;
+    public static DCLineWorker Instance;
 
     private void Awake() => Instance = this;
 
     void Start()
     {
-        _drawingBoard = DrawingBoardController.Instance.transform as RectTransform;
-        _playerTransform = PlayerController.Instance.transform;
+        _drawingBoard = DCDrawingBoardController.Instance.transform as RectTransform;
+        _playerTransform = DCPlayerController.Instance.transform;
         _drawingBoardPosInWorldPoint = Camera.main.ScreenToWorldPoint(_drawingBoard.position);
         mainCameraTransform.GetChild(0).gameObject.SetActive(false);
     }
@@ -39,7 +39,7 @@ public class Line : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (!DrawingBoardController.Instance.IsHovering) return;
+            if (!DCDrawingBoardController.Instance.IsHovering) return;
             if (mainCameraTransform.childCount > 0)
                 Destroy(mainCameraTransform.GetChild(0).gameObject);
             Time.timeScale = 0.2f;
@@ -53,7 +53,7 @@ public class Line : MonoBehaviour
                 Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) -
                               new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y);
                 Vector2 tempFingerPos = new Vector2(pos.x,
-                    pos.y + Mathf.Abs(_drawingBoardPosInWorldPoint.y - CameraFollow.Instance.GetOffset().y));
+                    pos.y + Mathf.Abs(_drawingBoardPosInWorldPoint.y - DCCameraFollow.Instance.GetOffset().y));
                 if (Vector2.Distance(tempFingerPos, _fingerPositions[_fingerPositions.Count - 1]) > 0.1f)
                     UpdateLine(tempFingerPos);
             }
@@ -67,6 +67,8 @@ public class Line : MonoBehaviour
 
                 foreach (GameObject line in GameObject.FindGameObjectsWithTag("Line"))
                     Destroy(line);
+                _playerTransform.GetChild(0).transform.GetChild(0).localScale = Vector3.one;
+                _playerTransform.GetChild(0).transform.GetChild(1).localScale = Vector3.one;
 
                 if (_isFirstDraw)
                 {
@@ -132,7 +134,7 @@ public class Line : MonoBehaviour
                         maxPosY = _leg1RendererPositions[i].y;
                 }
 
-                PlayerController.Instance.SetRotation(new Vector2(minPosX, minPosY), new Vector2(maxPosX, maxPosY));
+                DCPlayerController.Instance.SetRotation(new Vector2(minPosX, minPosY), new Vector2(maxPosX, maxPosY));
             }
             Time.timeScale = 1f;
         }
@@ -154,7 +156,7 @@ public class Line : MonoBehaviour
 
     private void CreateLine()
     {
-        _linePos = _playerTransform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0f, CameraFollow.Instance.GetOffset().y);
+        _linePos = _playerTransform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0f, DCCameraFollow.Instance.GetOffset().y);
 
         _tempLine = Instantiate(linePrefab, lineCameraTransform);
         _tempLine.transform.localPosition = new Vector3(0f, 1f, 17.2f);
@@ -162,8 +164,9 @@ public class Line : MonoBehaviour
         _lineRenderer = _tempLine.GetComponent<LineRenderer>();
         _edgeCollider = _tempLine.GetComponent<EdgeCollider2D>();
         _fingerPositions.Clear();
-        _fingerPositions.Add(Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y - CameraFollow.Instance.GetOffset().y));
-        _fingerPositions.Add(Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y - CameraFollow.Instance.GetOffset().y));
+        var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y - DCCameraFollow.Instance.GetOffset().y);
+        _fingerPositions.Add(pos);
+        _fingerPositions.Add(pos);
         _lineRenderer.SetPosition(0, _fingerPositions[0]);
         _lineRenderer.SetPosition(1, _fingerPositions[1]);
         _edgeCollider.points = _fingerPositions.ToArray();
@@ -171,22 +174,49 @@ public class Line : MonoBehaviour
 
     private void UpdateLine(Vector2 newFingerPos)
     {
-        if (!DrawingBoardController.Instance.IsHovering) return;
+        if (!DCDrawingBoardController.Instance.IsHovering) return;
         
         newFingerPos.x -= _drawingBoardPosInWorldPoint.x;
         newFingerPos.y -= Mathf.Abs(_drawingBoardPosInWorldPoint.y);
 
-        _fingerPositions.Add(newFingerPos);
+        Vector2 lastFingerPos = _fingerPositions[_fingerPositions.Count - 1];
+        float distance = Vector2.Distance(newFingerPos, lastFingerPos);
 
-        if (Vector2.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) > 0.1f)
+        float constDistance = 0.4f;
+
+        if (distance > constDistance)
         {
+            int steps = Mathf.FloorToInt(distance / constDistance); // Определяем количество шагов
+            Vector2 stepDirection = (newFingerPos - lastFingerPos).normalized * constDistance; // Направление шага
+
+            for (int i = 0; i < steps; i++)
+            {
+                Vector2 nextPoint = lastFingerPos + stepDirection * (i + 1); // Вычисляем следующую точку
+                _fingerPositions.Add(nextPoint);
+                _lineRenderer.positionCount++;
+                _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, nextPoint);
+                _edgeCollider.points = _fingerPositions.ToArray();
+            }
+
+            _fingerPositions.Add(newFingerPos);
             _lineRenderer.positionCount++;
             _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, newFingerPos);
             _edgeCollider.points = _fingerPositions.ToArray();
         }
         else
         {
-            _fingerPositions.RemoveAt(_fingerPositions.Count - 1);
+            _fingerPositions.Add(newFingerPos);
+            
+            if (Vector2.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) > 0.1f)
+            {
+                _lineRenderer.positionCount++;
+                _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, newFingerPos);
+                _edgeCollider.points = _fingerPositions.ToArray();
+            }
+            else
+            {
+                _fingerPositions.RemoveAt(_fingerPositions.Count - 1);
+            }
         }
     }
 

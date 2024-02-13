@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Token : MonoBehaviour
+public class DCTokenCollectable : MonoBehaviour
 {
     [SerializeField] private GameObject _tokenParticle;
     [SerializeField] private float _rotationSpeed = 200f;
@@ -16,7 +16,7 @@ public class Token : MonoBehaviour
     {
         if (collision.CompareTag("Player") || collision.CompareTag("Line"))
         {
-            ScoreManager.AddToken();
+            DCScoreManager.AddToken();
             Destroy(Instantiate(_tokenParticle, transform.position, Quaternion.identity), 1.2f);
             Destroy(gameObject);
         }

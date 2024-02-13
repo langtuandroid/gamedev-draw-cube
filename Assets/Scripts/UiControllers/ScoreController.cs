@@ -14,7 +14,7 @@ namespace UiControllers
         private void Start()
         {
             _tokenTextAnimation = _tokenText.gameObject.GetComponent<Animation>();
-            ScoreManager.SetTokens();
+            DCScoreManager.SetTokens();
         }
 
         public void SetTokens(int tokens) => _tokenText.text = tokens.ToString();

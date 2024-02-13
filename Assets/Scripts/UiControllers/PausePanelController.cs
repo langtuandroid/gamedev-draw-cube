@@ -9,7 +9,7 @@ public class PausePanelController : MonoBehaviour
     [SerializeField] private Button _playButton;
     private void Start()
     {
-        _restartButton.onClick.AddListener(GameManager.Instance.RestartButton);
-        _playButton.onClick.AddListener(GameManager.Instance.ResumeButton);
+        _restartButton.onClick.AddListener(DCGameManager.Instance.RestartButton);
+        _playButton.onClick.AddListener(DCGameManager.Instance.ResumeButton);
     }
 }

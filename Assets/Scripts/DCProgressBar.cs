@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
-public class ProgressBar : MonoBehaviour
+public class DCProgressBar : MonoBehaviour
 {
     [SerializeField] private Image progressBar;
     [SerializeField] private TextMeshProUGUI tempLevelText;
@@ -18,7 +17,7 @@ public class ProgressBar : MonoBehaviour
     void Start()
     {
         _levelEnd = GameObject.FindGameObjectWithTag("LevelEnd").transform;
-        _player = VisiblePlayerController.Instance.transform;
+        _player = DCVisiblePlayerController.Instance.transform;
         tempLevelText.text = (PlayerPrefs.GetInt("CurrentVisibleLevel", 0) + 1).ToString();//SceneManager.GetActiveScene().buildIndex + 1)).ToString();
         nextLevelText.text = (PlayerPrefs.GetInt("CurrentVisibleLevel", 0) + 2).ToString();//(SceneManager.GetActiveScene().buildIndex + 2).ToString();
         progressBar.fillAmount = 0f;
