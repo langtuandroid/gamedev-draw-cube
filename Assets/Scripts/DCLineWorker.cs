@@ -37,6 +37,11 @@ public class DCLineWorker : MonoBehaviour
 
     void Update()
     {
+        if (Input.touchCount > 1)
+        {
+            //OnLineRelease();
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             if (!DCDrawingBoardController.Instance.IsHovering) return;
@@ -61,83 +66,95 @@ public class DCLineWorker : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (_tempLine != null)
-            {
-                StopAllCoroutines();
-
-                foreach (GameObject line in GameObject.FindGameObjectsWithTag("Line"))
-                    Destroy(line);
-                _playerTransform.GetChild(0).transform.GetChild(0).localScale = Vector3.one;
-                _playerTransform.GetChild(0).transform.GetChild(1).localScale = Vector3.one;
-
-                if (_isFirstDraw)
-                {
-                    _isFirstDraw = false;
-                    _playerTransform.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-                    _playerTransform.gameObject.GetComponent<Animation>().Stop();
-                }
-
-                GameObject leg1 = Instantiate(_tempLine, _linePos + new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y), Quaternion.identity);
-                Destroy(_tempLine);
-                GameObject leg2 = Instantiate(leg1, _linePos + new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y), Quaternion.identity);
-                leg1.transform.SetParent(_playerTransform.GetChild(0).transform.GetChild(0));
-                leg1.transform.parent.transform.localScale /= 2f;
-                leg2.transform.SetParent(_playerTransform.GetChild(0).transform.GetChild(1));
-                leg2.transform.parent.transform.localScale /= 2f;
-                _playerTransform.GetChild(0).transform.GetChild(1).transform.Rotate(Vector3.forward, 180f);
-                leg1.GetComponent<EdgeCollider2D>().enabled = true;
-                leg2.GetComponent<EdgeCollider2D>().enabled = true;
-
-                leg1.transform.localPosition = new Vector3(leg1.transform.localPosition.x, leg1.transform.localPosition.y, 0f);
-                leg2.transform.localPosition = new Vector3(leg2.transform.localPosition.x, leg2.transform.localPosition.y, 0f);
-
-
-                LineRenderer lineRenderer1 = leg1.GetComponent<LineRenderer>();
-                _leg1RendererPositions = new Vector3[lineRenderer1.positionCount];
-                for (int i = 0; i < lineRenderer1.positionCount; i++)
-                    _leg1RendererPositions[i] = lineRenderer1.GetPosition(i);
-                lineRenderer1.positionCount = 0;
-
-                LineRenderer lineRenderer2 = leg2.GetComponent<LineRenderer>();
-                _leg2RendererPositions = new Vector3[lineRenderer2.positionCount];
-                for (int i = 0; i < lineRenderer2.positionCount; i++)
-                    _leg2RendererPositions[i] = lineRenderer2.GetPosition(i);
-                lineRenderer2.positionCount = 0;
-
-                EdgeCollider2D collider1 = leg1.GetComponent<EdgeCollider2D>();
-                _leg1ColliderPositions = new Vector2[collider1.pointCount];
-                for (int i = 0; i < collider1.pointCount; i++)
-                    _leg1ColliderPositions[i] = collider1.points[i];
-                collider1.points = new Vector2[0];
-
-                EdgeCollider2D collider2 = leg2.GetComponent<EdgeCollider2D>();
-                _leg2ColliderPositions = new Vector2[collider2.pointCount];
-                for (int i = 0; i < collider2.pointCount; i++)
-                    _leg2ColliderPositions[i] = collider2.points[i];
-                collider2.points = new Vector2[0];
-
-                StartCoroutine(GrowLegByLine(collider1, lineRenderer1, _leg1ColliderPositions, _leg1RendererPositions));
-                StartCoroutine(GrowLegByLine(collider2, lineRenderer2, _leg2ColliderPositions, _leg2RendererPositions));
-
-
-                float minPosX = 100f, minPosY = 100f, maxPosX = -100f, maxPosY = -100f;
-
-                for (int i = 0; i < _leg1RendererPositions.Length; i++)
-                {
-                    if (_leg1RendererPositions[i].x < minPosX)
-                        minPosX = _leg1RendererPositions[i].x;
-                    if (_leg1RendererPositions[i].y < minPosY)
-                        minPosY = _leg1RendererPositions[i].y;
-                    if (_leg1RendererPositions[i].x > maxPosX)
-                        maxPosX = _leg1RendererPositions[i].x;
-                    if (_leg1RendererPositions[i].y > maxPosY)
-                        maxPosY = _leg1RendererPositions[i].y;
-                }
-
-                DCPlayerController.Instance.SetRotation(new Vector2(minPosX, minPosY), new Vector2(maxPosX, maxPosY));
-            }
-            Time.timeScale = 1f;
+            OnLineRelease();
         }
+    }
+
+    private void OnLineRelease()
+    {
+        if (_tempLine != null)
+        {
+            StopAllCoroutines();
+
+            foreach (GameObject line in GameObject.FindGameObjectsWithTag("Line"))
+                Destroy(line);
+            _playerTransform.GetChild(0).transform.GetChild(0).localScale = Vector3.one;
+            _playerTransform.GetChild(0).transform.GetChild(1).localScale = Vector3.one;
+
+            if (_isFirstDraw)
+            {
+                _isFirstDraw = false;
+                _playerTransform.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                _playerTransform.gameObject.GetComponent<Animation>().Stop();
+            }
+
+            GameObject leg1 = Instantiate(_tempLine,
+                _linePos + new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y),
+                Quaternion.identity);
+            Destroy(_tempLine);
+            GameObject leg2 = Instantiate(leg1,
+                _linePos + new Vector3(mainCameraTransform.position.x, mainCameraTransform.position.y),
+                Quaternion.identity);
+            leg1.transform.SetParent(_playerTransform.GetChild(0).transform.GetChild(0));
+            leg1.transform.parent.transform.localScale /= 2f;
+            leg2.transform.SetParent(_playerTransform.GetChild(0).transform.GetChild(1));
+            leg2.transform.parent.transform.localScale /= 2f;
+            _playerTransform.GetChild(0).transform.GetChild(1).transform.Rotate(Vector3.forward, 180f);
+            leg1.GetComponent<EdgeCollider2D>().enabled = true;
+            leg2.GetComponent<EdgeCollider2D>().enabled = true;
+
+            leg1.transform.localPosition =
+                new Vector3(leg1.transform.localPosition.x, leg1.transform.localPosition.y, 0f);
+            leg2.transform.localPosition =
+                new Vector3(leg2.transform.localPosition.x, leg2.transform.localPosition.y, 0f);
+
+
+            LineRenderer lineRenderer1 = leg1.GetComponent<LineRenderer>();
+            _leg1RendererPositions = new Vector3[lineRenderer1.positionCount];
+            for (int i = 0; i < lineRenderer1.positionCount; i++)
+                _leg1RendererPositions[i] = lineRenderer1.GetPosition(i);
+            lineRenderer1.positionCount = 0;
+
+            LineRenderer lineRenderer2 = leg2.GetComponent<LineRenderer>();
+            _leg2RendererPositions = new Vector3[lineRenderer2.positionCount];
+            for (int i = 0; i < lineRenderer2.positionCount; i++)
+                _leg2RendererPositions[i] = lineRenderer2.GetPosition(i);
+            lineRenderer2.positionCount = 0;
+
+            EdgeCollider2D collider1 = leg1.GetComponent<EdgeCollider2D>();
+            _leg1ColliderPositions = new Vector2[collider1.pointCount];
+            for (int i = 0; i < collider1.pointCount; i++)
+                _leg1ColliderPositions[i] = collider1.points[i];
+            collider1.points = new Vector2[0];
+
+            EdgeCollider2D collider2 = leg2.GetComponent<EdgeCollider2D>();
+            _leg2ColliderPositions = new Vector2[collider2.pointCount];
+            for (int i = 0; i < collider2.pointCount; i++)
+                _leg2ColliderPositions[i] = collider2.points[i];
+            collider2.points = new Vector2[0];
+
+            StartCoroutine(GrowLegByLine(collider1, lineRenderer1, _leg1ColliderPositions, _leg1RendererPositions));
+            StartCoroutine(GrowLegByLine(collider2, lineRenderer2, _leg2ColliderPositions, _leg2RendererPositions));
+
+
+            float minPosX = 100f, minPosY = 100f, maxPosX = -100f, maxPosY = -100f;
+
+            for (int i = 0; i < _leg1RendererPositions.Length; i++)
+            {
+                if (_leg1RendererPositions[i].x < minPosX)
+                    minPosX = _leg1RendererPositions[i].x;
+                if (_leg1RendererPositions[i].y < minPosY)
+                    minPosY = _leg1RendererPositions[i].y;
+                if (_leg1RendererPositions[i].x > maxPosX)
+                    maxPosX = _leg1RendererPositions[i].x;
+                if (_leg1RendererPositions[i].y > maxPosY)
+                    maxPosY = _leg1RendererPositions[i].y;
+            }
+
+            DCPlayerController.Instance.SetRotation(new Vector2(minPosX, minPosY), new Vector2(maxPosX, maxPosY));
+        }
+
+        Time.timeScale = 1f;
     }
 
     IEnumerator GrowLegByLine(EdgeCollider2D _collider, LineRenderer _lineRenderer, Vector2[] filledCollider, Vector3[] filledRenderer)

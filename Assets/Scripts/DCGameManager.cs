@@ -26,17 +26,6 @@ public class DCGameManager : MonoBehaviour
 
     private void Start()
     {
-        if (Time.time == Time.timeSinceLevelLoad)
-        {
-            var visibleLevel = PlayerPrefs.GetInt("CurrentVisibleLevel", 0);
-            int levelIndex = PlayerPrefs.GetInt("Level", 0);
-            
-            if (SceneManager.sceneCountInBuildSettings > visibleLevel) visibleLevel = levelIndex;
-            
-            PlayerPrefs.SetInt("CurrentVisibleLevel", visibleLevel);
-            SceneManager.LoadScene(levelIndex);
-        }
-
         Time.timeScale = 1;
         StartPanelActivation();
         AudioCheck();
@@ -45,6 +34,7 @@ public class DCGameManager : MonoBehaviour
     private void StartPanelActivation()
     {
         pauseButton.SetActive(false);
+        MainMenuButtonController.Instance.gameObject.SetActive(true);
         startPanel.SetActive(true);
         skinsPanel.Hide();
         pausedPanel.SetActive(false);
@@ -59,12 +49,8 @@ public class DCGameManager : MonoBehaviour
         if (!_cleared)
         {
             int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            var visibleLevel = PlayerPrefs.GetInt("CurrentVisibleLevel", 0);
             
-            if (SceneManager.sceneCountInBuildSettings <= visibleLevel) nextLevelIndex = Random.Range(0, 29);
-        
-            PlayerPrefs.SetInt("Level", nextLevelIndex);
-            PlayerPrefs.SetInt("CurrentVisibleLevel", visibleLevel + 1);
+            if (SceneManager.sceneCountInBuildSettings > nextLevelIndex) PlayerPrefs.SetInt("Level", nextLevelIndex);
             
             _cleared = true;
             Time.timeScale = 1f;
@@ -79,7 +65,7 @@ public class DCGameManager : MonoBehaviour
             DCLineWorker.Instance.enabled = false;
 
             for (int i = 0; i < levelClearedTexts.Length; i++)
-                levelClearedTexts[i].text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex + 1) + "\nCLEARED";
+                levelClearedTexts[i].text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex) + "\nCLEARED";
 
             _confetti.SetActive(true);
         }
@@ -121,6 +107,7 @@ public class DCGameManager : MonoBehaviour
     public void StartButton()
     {
         pauseButton.SetActive(true);
+        MainMenuButtonController.Instance.gameObject.SetActive(false);
         startPanel.SetActive(false);
         DCAudioManager.Instance.ButtonClickSound();
         DCDrawingBoardController.Instance.gameObject.SetActive(true);
@@ -187,10 +174,7 @@ public class DCGameManager : MonoBehaviour
         DCAudioManager.Instance.ButtonClickSound();
         int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (SceneManager.sceneCountInBuildSettings <= PlayerPrefs.GetInt("CurrentVisibleLevel", 0)) 
-            nextLevelIndex = Random.Range(0, 29);
-        
-        PlayerPrefs.SetInt("Level", nextLevelIndex);
-        SceneManager.LoadScene(nextLevelIndex);
+        if (SceneManager.sceneCountInBuildSettings <= nextLevelIndex) SceneManager.LoadScene(0);
+        else SceneManager.LoadScene(nextLevelIndex);
     }
 }
