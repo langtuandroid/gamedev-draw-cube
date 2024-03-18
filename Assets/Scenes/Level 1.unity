@@ -29834,8 +29834,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   materials:
-  - {fileID: 2100000, guid: c21d7c347cf3403488423e02bb8c3864, type: 2}
-  - {fileID: 2100000, guid: e86edb907e282244f9b2d688764aea48, type: 2}
+  - {fileID: 2100000, guid: dc033f4ff6c8cca4a97ba08853dd2bee, type: 2}
+  - {fileID: 2100000, guid: a5749f1014a846948bbea4892ecb7ae2, type: 2}
   cube: {fileID: 7696629498527110584, guid: 7c0580bb8a20b57439be352111645395, type: 3}
   levenEnd: {fileID: 3162853515083366533, guid: 1016d0faab1900f4ca04dbf83621070d, type: 3}
 --- !u!4 &1586307434
@@ -40353,6 +40353,18 @@ PrefabInstance:
     - target: {fileID: 7031311186280562617, guid: d3070ad4839f0574697fc409100f56d8, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031311186280562617, guid: d3070ad4839f0574697fc409100f56d8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031311186494004143, guid: d3070ad4839f0574697fc409100f56d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.099976
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031311186494004143, guid: d3070ad4839f0574697fc409100f56d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -38.30005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

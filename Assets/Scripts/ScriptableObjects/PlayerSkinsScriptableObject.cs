@@ -8,6 +8,7 @@ namespace ScriptableObjects
     public class PlayerSkinsScriptableObject : ScriptableObject
     {
         [SerializeField] private List<Color> _skinColors;
+        [SerializeField] private List<Material> _materials;
         [SerializeField] private List<Mesh> _skinMeshes;
 
         public Mesh GetMeshByIndex(int index)
@@ -22,6 +23,13 @@ namespace ScriptableObjects
             if (_skinColors.Count < index || index < 0) throw new Exception("There is no player skin color with index " + index + "!");
             
             return _skinColors[index];
+        }
+
+        public Material GetMaterialByIndex(int index)
+        {
+            if (_materials.Count < index || index < 0) throw new Exception("There is no player skin color with index " + index + "!");
+            
+            return _materials[index];
         }
     }
 }

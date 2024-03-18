@@ -54,7 +54,7 @@ namespace UiControllers
 
         private void EnableSelectedSkin()
         {
-            _playerRenderer.material.color = _cylinderRenderer.material.color = _playerSkinsScriptableObject.GetColorByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
+            _playerRenderer.material = _cylinderRenderer.material = _playerSkinsScriptableObject.GetMaterialByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
             _playerMesh.mesh = _playerSkinsScriptableObject.GetMeshByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
         }
         

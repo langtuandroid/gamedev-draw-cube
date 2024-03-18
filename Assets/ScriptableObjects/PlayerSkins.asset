@@ -16,6 +16,10 @@ MonoBehaviour:
   - {r: 0.3529412, g: 0.4862745, b: 1, a: 1}
   - {r: 1, g: 0.2784314, b: 0.2784314, a: 1}
   - {r: 0.2784314, g: 1, b: 0.4862745, a: 1}
+  _materials:
+  - {fileID: 2100000, guid: e2f5d73d49d5cb24ebaeca6b7ccdea52, type: 2}
+  - {fileID: 2100000, guid: 77bdac7337eb2544fa533d2ab2ef5c77, type: 2}
+  - {fileID: 2100000, guid: d4857b72c8fba9f4487f95402beb085e, type: 2}
   _skinMeshes:
   - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

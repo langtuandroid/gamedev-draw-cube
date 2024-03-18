@@ -1,0 +1,68 @@
+
+- - - - - - - - - - - - - - - - - - - - - Colorfull Shaders & 3D Props- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+This pack contains many colorfull Shaders/Materials and some Usefull 3D props.Best fit for Beautifull, Fantasy, Abstract, Stylized Game worlds.You can also assign these materials to your own 3D gameobjects.All materials are highly customizable too.Adjust the properties and create your own easily.
+
+Technical Details:-
+		- Material(s) : Custom material (Made with Shadergraph v12), Unity standard material.
+		- Model(s) : Plane, Pillar, Disc,Planet,Cube, Framed Photo.etc		
+		- Poly count (Tris) : Arrow(36), Disc(1600), Planet(1240), Pot(2016), Wallphoto(60)
+		- Unwrapped : Yes
+		- Animated Shaders : Yes
+		- Prefab Variations : 75+
+		- Texture Size : 2048(.png) + Various
+		- Shadergraph version - 12.1.11
+		- Built in support : Yes
+	
+
+Features:-
+	- Customizable Shaders/Materials
+	- Best fit for Beautifull, Fantasy, Abstract, Stylized Game worlds.
+	- Shaders have animation's
+	- Lowpoly 3d props
+	- 3D models comes with simple colliders
+	- PBR HQ beautifull Shaders and Materials
+	- Include many Prefab variations
+	- Mobile, AR supported
+	- Post processing layers included
+	- 3D Model's are completely unwrapped.
+	- Shader also support's for custom 3D meshes with unwrapped UV.
+	- All nodes, materials and textures are appropriately named.
+
+Folder details:-
+
+	Materials : Where the materials for the model located.
+	
+	Meshes : Contain FBX format of the 3d model.
+	
+	Textures : Contains Textures, that are in (.PNG) file format
+	
+	(Other folders - Prefabs, Scenes)
+
+Notes:
+Support URP, HDRP, LWRP, Built-in Render Pipeline.
+This project is submitted using Built-in Render Pipeline. If you are not using Built-in Render Pipeline, you need to manually reset the shader of the model to avoid it being pink
+
+How to use:-
+	
+	Simply drag and drop the prefab to your scene and use it.
+	(Prefab(s) located under 
+	Asset > Colorfull_Shader > Prefabs).
+
+Custom Shader Properties:-
+
+	> Colormask, Color3_Mask : Both are a 2D texture mask for color1, 2, and color3 properties.
+	> ColorMask_Tile & ColorMask_Scale : Float value for tiling and scaling properties of Colormask Texture.
+	> Color3_Scale : Scaling property for Color3_Mask Texture.
+	> Normal map : Bumpness across the mesh, Support's scaling, Strength & Custom Texture.
+	> Twirl_Strength : Twirl properties for "ColorMask" Texture.
+	> Twirl_Anim_Speed : Texture animation speed across the mesh(0 to disable animation).
+	
+
+..................................................................................
+
+About Me : "SR Studios Kerala", Indie Game developer & 3D-2D Artist from Alappuzha, Kerala, India
+
+Contact : srstudioskerala@gmail.com
+
+................Thank you for downloading this package................................
