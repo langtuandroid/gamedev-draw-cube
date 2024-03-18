@@ -12058,113 +12058,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &534669902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 534669905}
-  - component: {fileID: 534669904}
-  - component: {fileID: 534669903}
-  - component: {fileID: 534669907}
-  m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &534669903
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  m_Enabled: 1
---- !u!20 &534669904
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.4627451, g: 0.5137255, b: 0.5921569, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 1
-  orthographic size: 10
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &534669905
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &534669907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c299c8d7e3ad0994486b769994b5bb79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smoothTime: 0
-  isMainCamera: 0
 --- !u!1 &539449300
 GameObject:
   m_ObjectHideFlags: 0
@@ -38278,17 +38171,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9969f3ef13ddba5439e0a89d48c77572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateLevel: 0
-  resetLevel: 0
-  generateOnX: 1
-  add3DMeshCollider: 0
-  countOfCubes: 140
-  cubeLength: 1
-  minCubesPerPattern: 30
-  maxCubesPerPattern: 80
-  cubeHeightMin: 3
-  cubeHeightMax: 20
-  cubePatterns:
+  _generateLevel: 0
+  _resetLevel: 0
+  _generateOnX: 1
+  _add3DMeshCollider: 0
+  _countOfCubes: 140
+  _cubeLength: 1
+  _minCubesPerPattern: 30
+  _maxCubesPerPattern: 80
+  _cubeHeightMin: 3
+  _cubeHeightMax: 40
+  _cubePatterns:
   - serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -38422,11 +38315,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  materials:
+  _materialsForCubes:
   - {fileID: 2100000, guid: c21d7c347cf3403488423e02bb8c3864, type: 2}
   - {fileID: 2100000, guid: e86edb907e282244f9b2d688764aea48, type: 2}
-  cube: {fileID: 7696629498527110584, guid: 7c0580bb8a20b57439be352111645395, type: 3}
-  levenEnd: {fileID: 3162853515083366533, guid: 1016d0faab1900f4ca04dbf83621070d, type: 3}
+  _cubePrefab: {fileID: 7696629498527110584, guid: 7c0580bb8a20b57439be352111645395, type: 3}
+  _levelEndPrefab: {fileID: 3162853515083366533, guid: 1016d0faab1900f4ca04dbf83621070d, type: 3}
 --- !u!4 &1586307434
 Transform:
   m_ObjectHideFlags: 0
@@ -53594,7 +53487,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 170076735}
   - {fileID: 1992825987}
-  - {fileID: 534669905}
   - {fileID: 8238404309569620125}
   - {fileID: 1586307434}
   - {fileID: 6304294652047193118}

@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c299c8d7e3ad0994486b769994b5bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothTime: 0
-  isMainCamera: 1
+  _cameraSmoothTime: 0
+  _isMainCamera: 1
 --- !u!1001 &8020747761684468110
 PrefabInstance:
   m_ObjectHideFlags: 0

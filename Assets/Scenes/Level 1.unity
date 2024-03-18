@@ -29689,17 +29689,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9969f3ef13ddba5439e0a89d48c77572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateLevel: 0
-  resetLevel: 0
-  generateOnX: 1
-  add3DMeshCollider: 0
-  countOfCubes: 100
-  cubeLength: 1
-  minCubesPerPattern: 30
-  maxCubesPerPattern: 80
-  cubeHeightMin: 3
-  cubeHeightMax: 20
-  cubePatterns:
+  _generateLevel: 0
+  _resetLevel: 0
+  _generateOnX: 1
+  _add3DMeshCollider: 0
+  _countOfCubes: 100
+  _cubeLength: 1
+  _minCubesPerPattern: 30
+  _maxCubesPerPattern: 80
+  _cubeHeightMin: 3
+  _cubeHeightMax: 40
+  _cubePatterns:
   - serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -29833,11 +29833,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  materials:
+  _materialsForCubes:
   - {fileID: 2100000, guid: dc033f4ff6c8cca4a97ba08853dd2bee, type: 2}
   - {fileID: 2100000, guid: a5749f1014a846948bbea4892ecb7ae2, type: 2}
-  cube: {fileID: 7696629498527110584, guid: 7c0580bb8a20b57439be352111645395, type: 3}
-  levenEnd: {fileID: 3162853515083366533, guid: 1016d0faab1900f4ca04dbf83621070d, type: 3}
+  _cubePrefab: {fileID: 7696629498527110584, guid: 7c0580bb8a20b57439be352111645395, type: 3}
+  _levelEndPrefab: {fileID: 3162853515083366533, guid: 1016d0faab1900f4ca04dbf83621070d, type: 3}
 --- !u!4 &1586307434
 Transform:
   m_ObjectHideFlags: 0
@@ -40510,10 +40510,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 93574942760657314, guid: fc9d3e9a6d78c854eb87328bdb1bbc58, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6576900487887628308, guid: fc9d3e9a6d78c854eb87328bdb1bbc58, type: 3}
-      propertyPath: smoothTime
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7769364480865093975, guid: fc9d3e9a6d78c854eb87328bdb1bbc58, type: 3}

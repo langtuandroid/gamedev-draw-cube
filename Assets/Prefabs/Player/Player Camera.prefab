@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1201781064402491214}
   m_Layer: 0
   m_Name: Player Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c299c8d7e3ad0994486b769994b5bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothTime: 0.25
-  isMainCamera: 0
+  _cameraSmoothTime: 0.25
+  _isMainCamera: 0
 --- !u!1 &7616991914936796853
 GameObject:
   m_ObjectHideFlags: 0
