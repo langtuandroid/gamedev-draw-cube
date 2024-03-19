@@ -9,6 +9,7 @@ namespace UiControllers.Menu
         [SerializeField] private GameObject _mainMenuPanel;
         [SerializeField] private GameObject _levelsPanel;
         [SerializeField] private GameObject _settingPanel;
+        [SerializeField] private GameObject _skinsPanel;
         [SerializeField] private GameObject _settingCrossedImage;
 
         private void Start()
@@ -16,6 +17,7 @@ namespace UiControllers.Menu
             _backToMainMenuButton.SetActive(false);
             _levelsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
+            _skinsPanel.SetActive(false);
             _settingCrossedImage.SetActive(PlayerPrefs.GetInt("Audio", 0) != 0);
         }
 
@@ -24,6 +26,16 @@ namespace UiControllers.Menu
             _backToMainMenuButton.SetActive(true);
             _mainMenuPanel.SetActive(false);
             _settingPanel.SetActive(true);
+            DCAudioManager.Instance.ClickSound();
+        }
+
+        public void SkinsButton()
+        {
+            _backToMainMenuButton.SetActive(true);
+            _mainMenuPanel.SetActive(false);
+            _settingPanel.SetActive(false);
+            _skinsPanel.SetActive(true);
+            DCAudioManager.Instance.ClickSound();
         }
 
         public void AudioButton()
@@ -41,6 +53,7 @@ namespace UiControllers.Menu
             _backToMainMenuButton.SetActive(true);
             _levelsPanel.SetActive(true);
             _mainMenuPanel.SetActive(false);
+            DCAudioManager.Instance.ClickSound();
         }
 
         public void BackToMainMenuButton()
@@ -48,7 +61,9 @@ namespace UiControllers.Menu
             _settingPanel.SetActive(false);
             _backToMainMenuButton.SetActive(false);
             _levelsPanel.SetActive(false);
+            _skinsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
+            DCAudioManager.Instance.ClickSound();
         }
 
         public void ExitButton()

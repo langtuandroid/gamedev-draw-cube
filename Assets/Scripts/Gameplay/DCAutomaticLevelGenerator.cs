@@ -7,6 +7,7 @@ namespace Gameplay
     public class DCAutomaticLevelGenerator : MonoBehaviour
     {
         [Header("Level Generation")]
+        [SerializeField] private bool _reasighnMaterials;
         [SerializeField] private bool _generateLevel;
         [SerializeField] private bool _resetLevel;
 
@@ -47,6 +48,10 @@ namespace Gameplay
 
         void Update()
         {
+            if (_reasighnMaterials)
+            {
+                ReasighnMaterials();
+            }
             if (_generateLevel)     //If Generate Level "button" is clicked in the Inspector
             {
                 _generateLevel = false;
@@ -107,6 +112,17 @@ namespace Gameplay
             int childs = transform.childCount;
             for (int i = 0; i < childs; i++)        //Loops through the children of the gameobject
                 DestroyImmediate(transform.GetChild(0).gameObject);     //And destroys them
+        }
+
+        void ReasighnMaterials()
+        {
+            int currentMaterialIndex = 0;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                currentMaterialIndex = currentMaterialIndex >= _materialsForCubes.Length ? 0 : currentMaterialIndex;
+                transform.GetChild(i).gameObject.GetComponent<MeshRenderer>().material = _materialsForCubes[currentMaterialIndex];
+                currentMaterialIndex = currentMaterialIndex >= _materialsForCubes.Length ? 0 : currentMaterialIndex + 1;
+            }
         }
     }
 }

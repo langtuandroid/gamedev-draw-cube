@@ -1,6 +1,5 @@
 ﻿using Gameplay;
 using TMPro;
-using UiControllers;
 using UiControllers.Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,15 +10,13 @@ namespace Managers
     public class DCGameManager : MonoBehaviour
     {
         public static DCGameManager Instance;
-        [FormerlySerializedAs("startPanel")] [SerializeField] private GameObject _startGamePanel;
         [FormerlySerializedAs("clearedPanel")] [SerializeField] private GameObject _levelClearedPanel;
         [FormerlySerializedAs("pausedPanel")] [SerializeField] private GameObject _pausedLevelPanel;
-        [FormerlySerializedAs("pauseButton")] [SerializeField] private GameObject _pauseButton;
-        [FormerlySerializedAs("muteImage")] [SerializeField] private GameObject _audioMuteImage;
-        [FormerlySerializedAs("progressBar")] [SerializeField] private GameObject _progressBarReference;
-        [FormerlySerializedAs("levelClearedTexts")] [SerializeField] private TextMeshProUGUI[] _levelClearedTexts;
         
-        private SkinsPanelController _skinsPanelController;
+        private GameObject _pauseButton;
+        private GameObject _startGamePanel;
+        private GameObject _progressBar;
+        // private SkinsPanelController _skinsPanelController;
         private bool _isGameOver = false;
         private bool _levelCleared;
         private GameObject _confettiParticle;
@@ -35,7 +32,10 @@ namespace Managers
 
         private void Start()
         {
-            _skinsPanelController = FindObjectOfType<SkinsPanelController>();
+            _startGamePanel = StartButtonController.Instance.gameObject.transform.parent.gameObject;
+            _pauseButton = FindObjectOfType<DCPauseButtonController>().gameObject;
+            _progressBar = FindObjectOfType<DCProgressBarController>().gameObject;
+            // _skinsPanelController = FindObjectOfType<SkinsPanelController>();
             Time.timeScale = 1;
             EnableStartPanel();
             AudioCheck();
@@ -46,11 +46,11 @@ namespace Managers
             _pauseButton.SetActive(false);
             DCGoToMainMenuButtonController.Instance.gameObject.SetActive(true);
             _startGamePanel.SetActive(true);
-            _skinsPanelController.HideThisPanel();
+            // _skinsPanelController.HideThisPanel();
             _pausedLevelPanel.SetActive(false);
             _levelClearedPanel.SetActive(false);
             DCDrawingBoardController.Instance.gameObject.SetActive(false);
-            _progressBarReference.SetActive(false);
+            _progressBar.SetActive(false);
             DCLineWorker.Instance.enabled = false;
         }
 
@@ -68,32 +68,21 @@ namespace Managers
                 _pauseButton.SetActive(false);
                 _levelClearedPanel.SetActive(true);
                 _startGamePanel.SetActive(false);
-                _skinsPanelController.HideThisPanel();
                 _pausedLevelPanel.SetActive(false);
                 DCDrawingBoardController.Instance.gameObject.SetActive(false);
-                _progressBarReference.SetActive(false);
+                _progressBar.SetActive(false);
                 DCLineWorker.Instance.enabled = false;
-
-                foreach (var levelText in _levelClearedTexts) levelText.text = "LEVEL " + (SceneManager.GetActiveScene().buildIndex) + "\nCLEARED";
 
                 _confettiParticle.SetActive(true);
             }
         }
 
-        private void SkinsPanelActivation()
-        {
-            _startGamePanel.SetActive(false);
-            _skinsPanelController.ShowThisPanel();
-            _pausedLevelPanel.SetActive(false);
-        }
-
         private void PausedPanelActivation()
         {
             _startGamePanel.SetActive(false);
-            _skinsPanelController.HideThisPanel();
             _pausedLevelPanel.SetActive(true);
             DCDrawingBoardController.Instance.gameObject.SetActive(false);
-            _progressBarReference.SetActive(false);
+            _progressBar.SetActive(false);
             DCLineWorker.Instance.enabled = false;
         }
 
@@ -101,13 +90,11 @@ namespace Managers
         {
             if (PlayerPrefs.GetInt("Audio", 0) == 0)
             {
-                _audioMuteImage.SetActive(false);
                 DCAudioManager.Instance.SoundIsOn = true;
                 DCAudioManager.Instance.PlayBackgroundMusic();
             }
             else
             {
-                _audioMuteImage.SetActive(true);
                 DCAudioManager.Instance.SoundIsOn = false;
                 DCAudioManager.Instance.StopBackgroundMusic();
             }
@@ -120,7 +107,7 @@ namespace Managers
             _startGamePanel.SetActive(false);
             DCAudioManager.Instance.ClickSound();
             DCDrawingBoardController.Instance.gameObject.SetActive(true);
-            _progressBarReference.SetActive(true);
+            _progressBar.SetActive(true);
             DCLineWorker.Instance.enabled = true;
             DCLineWorker.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
         }
@@ -131,26 +118,11 @@ namespace Managers
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        public void OnSkinsBackButton()
-        {
-            EnableStartPanel();
-            DCAudioManager.Instance.ClickSound();
-        }
-
         public void OnAudioButton()
         {
+            PlayerPrefs.SetInt("Audio", PlayerPrefs.GetInt("Audio", 0) == 0 ? 1 : 0);
             DCAudioManager.Instance.ClickSound();
-            if (PlayerPrefs.GetInt("Audio", 0) == 0)
-                PlayerPrefs.SetInt("Audio", 1);
-            else
-                PlayerPrefs.SetInt("Audio", 0);
             AudioCheck();
-        }
-
-        public void OnSkinsButton()
-        {
-            SkinsPanelActivation();
-            DCAudioManager.Instance.ClickSound();
         }
 
         public void OnPauseButton()
@@ -168,14 +140,8 @@ namespace Managers
             _pauseButton.SetActive(true);
             _pausedLevelPanel.SetActive(false);
             DCDrawingBoardController.Instance.gameObject.SetActive(true);
-            _progressBarReference.SetActive(true);
+            _progressBar.SetActive(true);
             DCLineWorker.Instance.enabled = true;
-        }
-
-        public void OnHomeButton()
-        {
-            OnResumeButton();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         public void OnNextLevelButton()

@@ -5,46 +5,33 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UiControllers.Game
+namespace UiControllers.Menu
 {
     public class SkinsPanelController : MonoBehaviour
     {
-        [SerializeField] private GameObject _panelItself;
-        [SerializeField] private Button _closeButton;
         [SerializeField] private Button _skin1Button;
         [SerializeField] private Button _skin2Button;
         [SerializeField] private Button _skin3Button;
+        [SerializeField] private Image _mainSkinImage;
         [SerializeField] private TextMeshProUGUI[] _requiredTokenTexts;
         [SerializeField] private GameObject[] _lockedSkinImages;
-        [SerializeField] private GameObject _notEnoughTokensAnimationText;
-        [SerializeField] private PlayerSkinsScriptableObject _playerSkinsScriptableObject;
-        
-        private DCVisiblePlayerController _currentVisiblePlayer;
-        private MeshRenderer _playerRenderer;
-        private MeshRenderer _cylinderRenderer;
-        private MeshFilter _playerMeshFilter;
+        [SerializeField] private Image[] _skinIcons;
         
         private void Start()
         {
             PlayerPrefs.SetInt(DCSkinManager.key_Skin + "0" + DCSkinManager.key_Unlocked, 1);
-
-            _currentVisiblePlayer = DCVisiblePlayerController.Instance;
-            _playerMeshFilter = _currentVisiblePlayer.GetComponent<MeshFilter>();
-            _playerRenderer = _currentVisiblePlayer.GetComponent<MeshRenderer>();
-            _cylinderRenderer = _currentVisiblePlayer.transform.GetChild(0).GetComponent<MeshRenderer>();
             
-            _closeButton.onClick.AddListener(DCGameManager.Instance.OnSkinsBackButton);
             _skin1Button.onClick.AddListener(() => OnSelectSkinClick(0));
             _skin2Button.onClick.AddListener(() => OnSelectSkinClick(1));
             _skin3Button.onClick.AddListener(() => OnSelectSkinClick(2));
-            
+            _mainSkinImage.sprite = _skinIcons[PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0)].sprite;
+                
             SetSkinPrice();
-            EnableSkin();
         }
 
         private void OnSelectSkinClick(int index)
         {
-            if (!DCSkinManager.SelectSkin(index)) _notEnoughTokensAnimationText.GetComponent<Animation>().Play();
+            if (DCSkinManager.SelectSkin(index)) _mainSkinImage.sprite = _skinIcons[index].sprite;
             
             for (int i = 0; i < _lockedSkinImages.Length; i++)
             {
@@ -52,13 +39,6 @@ namespace UiControllers.Game
             }
 
             SetSkinPrice();
-            EnableSkin();
-        }
-
-        private void EnableSkin()
-        {
-            _playerRenderer.material = _cylinderRenderer.material = _playerSkinsScriptableObject.GetMaterialByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
-            _playerMeshFilter.mesh = _playerSkinsScriptableObject.GetMeshByIndex(PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0));
         }
         
         private void SetSkinPrice()
@@ -76,9 +56,5 @@ namespace UiControllers.Game
                 }
             }
         }
-
-        public void HideThisPanel() => _panelItself.SetActive(false);
-
-        public void ShowThisPanel() => _panelItself.SetActive(true);
     }
 }

@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d7c00ec00b5124d966904688a39944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tokenParticle: {fileID: 1164757159869872, guid: 2e92fa9519576c24eb54fef5eb936191, type: 3}
-  _rotationSpeed: 200
+  _tokenParticleReference: {fileID: 1164757159869872, guid: 2e92fa9519576c24eb54fef5eb936191, type: 3}
+  _tokenRotationSpeed: 200
 --- !u!50 &1726315854840042118
 Rigidbody2D:
   serializedVersion: 4
