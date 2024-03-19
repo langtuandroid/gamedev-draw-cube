@@ -235,6 +235,6 @@ namespace Gameplay
             Time.timeScale = 1f;
         }
 
-        public Transform GetMainCameraTransform() => Camera.main.transform;
+        public Transform GetMainCameraTransform() => _mainCameraTransform;
     }
 }
