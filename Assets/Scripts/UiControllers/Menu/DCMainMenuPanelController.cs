@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Managers;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace UiControllers.Menu
 {
     public class DcMainMenuPanelController : MonoBehaviour
     {
-        [SerializeField] private GameObject _backToMainMenuButton;
+        [SerializeField] private List<GameObject> _backToMainMenuButtons;
         [SerializeField] private GameObject _mainMenuPanel;
         [SerializeField] private GameObject _levelsPanel;
         [SerializeField] private GameObject _settingPanel;
@@ -14,16 +15,17 @@ namespace UiControllers.Menu
 
         private void Start()
         {
-            _backToMainMenuButton.SetActive(false);
+            foreach (var btn in _backToMainMenuButtons) btn.SetActive(false);
             _levelsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
             _skinsPanel.SetActive(false);
             _settingCrossedImage.SetActive(PlayerPrefs.GetInt("Audio", 0) != 0);
+            DCAudioManager.Instance.SoundIsOn = PlayerPrefs.GetInt("Audio", 0) == 0;
         }
 
         public void SettingsButton()
         {
-            _backToMainMenuButton.SetActive(true);
+            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
             _mainMenuPanel.SetActive(false);
             _settingPanel.SetActive(true);
             DCAudioManager.Instance.ClickSound();
@@ -31,7 +33,7 @@ namespace UiControllers.Menu
 
         public void SkinsButton()
         {
-            _backToMainMenuButton.SetActive(true);
+            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
             _mainMenuPanel.SetActive(false);
             _settingPanel.SetActive(false);
             _skinsPanel.SetActive(true);
@@ -50,7 +52,7 @@ namespace UiControllers.Menu
 
         public void PlayButton()
         {
-            _backToMainMenuButton.SetActive(true);
+            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
             _levelsPanel.SetActive(true);
             _mainMenuPanel.SetActive(false);
             DCAudioManager.Instance.ClickSound();
@@ -59,7 +61,7 @@ namespace UiControllers.Menu
         public void BackToMainMenuButton()
         {
             _settingPanel.SetActive(false);
-            _backToMainMenuButton.SetActive(false);
+            foreach (var btn in _backToMainMenuButtons) btn.SetActive(false);
             _levelsPanel.SetActive(false);
             _skinsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);

@@ -35,10 +35,10 @@ namespace Managers
             _startGamePanel = StartButtonController.Instance.gameObject.transform.parent.gameObject;
             _pauseButton = FindObjectOfType<DCPauseButtonController>().gameObject;
             _progressBar = FindObjectOfType<DCProgressBarController>().gameObject;
-            // _skinsPanelController = FindObjectOfType<SkinsPanelController>();
             Time.timeScale = 1;
             EnableStartPanel();
             AudioCheck();
+            OnStartButton();
         }
 
         private void EnableStartPanel()
@@ -46,7 +46,6 @@ namespace Managers
             _pauseButton.SetActive(false);
             DCGoToMainMenuButtonController.Instance.gameObject.SetActive(true);
             _startGamePanel.SetActive(true);
-            // _skinsPanelController.HideThisPanel();
             _pausedLevelPanel.SetActive(false);
             _levelClearedPanel.SetActive(false);
             DCDrawingBoardController.Instance.gameObject.SetActive(false);
@@ -109,7 +108,10 @@ namespace Managers
             DCDrawingBoardController.Instance.gameObject.SetActive(true);
             _progressBar.SetActive(true);
             DCLineWorker.Instance.enabled = true;
-            DCLineWorker.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
+            if (DCLineWorker.Instance.GetMainCameraTransform() && DCLineWorker.Instance.GetMainCameraTransform().childCount > 0)
+            {
+                DCLineWorker.Instance.GetMainCameraTransform().GetChild(0).gameObject.SetActive(true);
+            }
         }
 
         public void OnRestartButton()

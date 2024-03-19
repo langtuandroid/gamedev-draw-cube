@@ -25,13 +25,18 @@ namespace UiControllers.Menu
             _skin2Button.onClick.AddListener(() => OnSelectSkinClick(1));
             _skin3Button.onClick.AddListener(() => OnSelectSkinClick(2));
             _mainSkinImage.sprite = _skinIcons[PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0)].sprite;
+            _mainSkinImage.color = _skinIcons[PlayerPrefs.GetInt(DCSkinManager.key_Skin, 0)].color;
                 
             SetSkinPrice();
         }
 
         private void OnSelectSkinClick(int index)
         {
-            if (DCSkinManager.SelectSkin(index)) _mainSkinImage.sprite = _skinIcons[index].sprite;
+            if (DCSkinManager.SelectSkin(index))
+            {
+                _mainSkinImage.sprite = _skinIcons[index].sprite;
+                _mainSkinImage.color = _skinIcons[index].color;
+            }
             
             for (int i = 0; i < _lockedSkinImages.Length; i++)
             {

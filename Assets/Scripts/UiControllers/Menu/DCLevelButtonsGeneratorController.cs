@@ -6,6 +6,7 @@ namespace UiControllers.Menu
     public class DcLevelButtonsGeneratorController : MonoBehaviour
     {
         [SerializeField] private DcLevelSelectButtonController _buttonPrefab;
+        [SerializeField] private GameObject _emptyPrefab;
         [SerializeField] private RectTransform _levelsPanel;
     
         void Start()
@@ -15,6 +16,10 @@ namespace UiControllers.Menu
                 var levelButton = Instantiate(_buttonPrefab, _levelsPanel);
                 levelButton.Initialize(i);
             }
+            Instantiate(_emptyPrefab, _levelsPanel);
+            Instantiate(_emptyPrefab, _levelsPanel);
+            Instantiate(_emptyPrefab, _levelsPanel);
+            Instantiate(_emptyPrefab, _levelsPanel);
         }
     }
 }

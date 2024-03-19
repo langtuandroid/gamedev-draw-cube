@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 338401766521152075}
   - component: {fileID: 813481927174303564}
   - component: {fileID: 2395679201080839708}
+  - component: {fileID: 4702401026657802915}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -223,6 +224,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &4702401026657802915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973353444981866789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0908078f8a7842d2a28bd2373dffd23a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSkinsScriptableObject: {fileID: 11400000, guid: 6064179e065df6449a1e911f3989b049, type: 2}
 --- !u!1 &2403370073098699434
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,5 +314,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d7c00ec00b5124d966904688a39944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenParticle: {fileID: 0}
-  rotationSpeed: 200
+  _tokenParticleReference: {fileID: 0}
+  _tokenRotationSpeed: 200
