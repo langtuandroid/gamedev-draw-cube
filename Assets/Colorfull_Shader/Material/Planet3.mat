@@ -79,12 +79,12 @@ Material:
     - _Normal_Strength: 1
     - _Overlay_Opacity: 0
     - _Smoothness: -0.48
-    - _Twirl_Anim_Speed: 0.035
-    - _Twirl_Strength: 3.87
+    - _Twirl_Anim_Speed: 0
+    - _Twirl_Strength: 0.05
     m_Colors:
     - _Color_1: {r: 0.019382361, g: 0.2462014, b: 0.37123778, a: 0}
-    - _Color_2: {r: 0.048171833, g: 0.9734455, b: 0.9559735, a: 0}
-    - _Color_3_Overlay: {r: 0.50888145, g: 0.084376216, b: 0.17144115, a: 1}
+    - _Color_2: {r: 0.047058836, g: 0.61991715, b: 0.972549, a: 0}
+    - _Color_3_Overlay: {r: 0.08627451, g: 0.3977546, b: 0.50980395, a: 0.72156864}
   m_BuildTextureStacks: []
 --- !u!114 &8501094180422374758
 MonoBehaviour:

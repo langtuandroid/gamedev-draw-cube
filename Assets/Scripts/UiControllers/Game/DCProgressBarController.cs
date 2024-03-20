@@ -23,7 +23,8 @@ namespace UiControllers.Game
             _levelEnd = GameObject.FindGameObjectWithTag("LevelEnd").transform;
             _player = DCVisiblePlayerController.Instance.transform;
             _currentLevelText.text = (SceneManager.GetActiveScene().buildIndex).ToString();
-            _nextLevelText.text = (SceneManager.GetActiveScene().buildIndex + 1).ToString();
+            _nextLevelText.text = SceneManager.GetActiveScene().buildIndex == 30 ? "End" : (SceneManager.GetActiveScene().buildIndex + 1).ToString();
+
             _progressBar.fillAmount = 0f;
             
             _isFillable = true;

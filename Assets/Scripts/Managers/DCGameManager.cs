@@ -151,8 +151,7 @@ namespace Managers
             DCAudioManager.Instance.ClickSound();
             int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-            if (SceneManager.sceneCountInBuildSettings <= nextLevelIndex) SceneManager.LoadScene(0);
-            else SceneManager.LoadScene(nextLevelIndex);
+            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings <= nextLevelIndex ? 0 : nextLevelIndex);
         }
     }
 }

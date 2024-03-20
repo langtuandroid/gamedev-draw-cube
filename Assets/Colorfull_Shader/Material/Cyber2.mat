@@ -79,7 +79,7 @@ Material:
     - _Normal_Strength: 1
     - _Overlay_Opacity: 0
     - _Smoothness: -0.76
-    - _Twirl_Anim_Speed: 0.238
+    - _Twirl_Anim_Speed: 0.143
     - _Twirl_Strength: 0
     m_Colors:
     - _Color_1: {r: 0.0013898634, g: 0.00040049918, b: 0.009433985, a: 0}

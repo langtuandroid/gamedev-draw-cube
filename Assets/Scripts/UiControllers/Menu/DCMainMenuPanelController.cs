@@ -15,6 +15,7 @@ namespace UiControllers.Menu
 
         private void Start()
         {
+            Time.timeScale = 1;
             foreach (var btn in _backToMainMenuButtons) btn.SetActive(false);
             _levelsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
