@@ -1,4 +1,5 @@
-﻿using UiControllers.Game;
+﻿using Scripts.Gameplay.Managers;
+using UiControllers.Game;
 using UnityEngine;
 
 namespace Managers
@@ -9,7 +10,7 @@ namespace Managers
         {
             if (!DCGameManager.Instance.IsGameOver)
             {
-                PlayerPrefs.SetInt("Token", PlayerPrefs.GetInt("Token", 0) + countOfToken);
+                PlayerPrefsManager.AddInGameCurrency(countOfToken);
                 SetTokensToSC();
                 DCScoreController.Instance.PlayAnimation();
                 DCAudioManager.Instance.TokenCollectSound();
@@ -18,10 +19,10 @@ namespace Managers
 
         public static void TokenRemove(int decreaseValue)
         {
-            PlayerPrefs.SetInt("Token", PlayerPrefs.GetInt("Token", 0) - decreaseValue);
+            PlayerPrefsManager.AddInGameCurrency(-decreaseValue);
             SetTokensToSC();
         }
 
-        public static void SetTokensToSC() => DCScoreController.Instance.SetTokens(PlayerPrefs.GetInt("Token", 0));
+        public static void SetTokensToSC() => DCScoreController.Instance.SetTokens(PlayerPrefsManager.GetInGameCurrency());
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UiControllers.Menu
 {
@@ -12,11 +13,32 @@ namespace UiControllers.Menu
         [SerializeField] private GameObject _settingPanel;
         [SerializeField] private GameObject _skinsPanel;
         [SerializeField] private GameObject _settingCrossedImage;
+        [SerializeField] private List<Button> _gemShopButtons;
+        [SerializeField] private List<Button> _gemShopBackButtons;
+        [SerializeField] private List<GameObject> _gemShops;
 
         private void Start()
         {
+            foreach (var gemShopButton in _gemShopButtons)
+            {
+                gemShopButton.onClick.AddListener(() =>
+                {
+                    DCAudioManager.Instance.ClickSound();
+                    SetMenuButtonsActivity(false);
+                    SetGemShopsActivity(true);
+                });
+            }
+            foreach (var gemShopBackButton in _gemShopBackButtons)
+            {
+                gemShopBackButton.onClick.AddListener(() =>
+                {
+                    DCAudioManager.Instance.ClickSound();
+                    SetMenuButtonsActivity(true);
+                    SetGemShopsActivity(false);
+                });
+            }
+            SetMenuButtonsActivity(false);
             Time.timeScale = 1;
-            foreach (var btn in _backToMainMenuButtons) btn.SetActive(false);
             _levelsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
             _skinsPanel.SetActive(false);
@@ -24,9 +46,25 @@ namespace UiControllers.Menu
             DCAudioManager.Instance.SoundIsOn = PlayerPrefs.GetInt("Audio", 0) == 0;
         }
 
+        private void SetGemShopsActivity(bool isActive)
+        {
+            foreach (var gemShop in _gemShops) gemShop.SetActive(isActive);
+        }
+        
+        private void OnDestroy()
+        {
+            foreach (var gemShopButton in _gemShopButtons) gemShopButton.onClick.RemoveAllListeners();
+            foreach (var gemShopBackButton in _gemShopBackButtons) gemShopBackButton.onClick.RemoveAllListeners();
+        }
+
+        private void SetMenuButtonsActivity(bool state)
+        {
+            foreach (var button in _backToMainMenuButtons) button.SetActive(state);
+        }
+
         public void SettingsButton()
         {
-            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
+            SetMenuButtonsActivity(true);
             _mainMenuPanel.SetActive(false);
             _settingPanel.SetActive(true);
             DCAudioManager.Instance.ClickSound();
@@ -34,7 +72,7 @@ namespace UiControllers.Menu
 
         public void SkinsButton()
         {
-            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
+            SetMenuButtonsActivity(true);
             _mainMenuPanel.SetActive(false);
             _settingPanel.SetActive(false);
             _skinsPanel.SetActive(true);
@@ -53,7 +91,7 @@ namespace UiControllers.Menu
 
         public void PlayButton()
         {
-            foreach (var btn in _backToMainMenuButtons) btn.SetActive(true);
+            SetMenuButtonsActivity(true);
             _levelsPanel.SetActive(true);
             _mainMenuPanel.SetActive(false);
             DCAudioManager.Instance.ClickSound();
@@ -62,16 +100,11 @@ namespace UiControllers.Menu
         public void BackToMainMenuButton()
         {
             _settingPanel.SetActive(false);
-            foreach (var btn in _backToMainMenuButtons) btn.SetActive(false);
+            SetMenuButtonsActivity(false);
             _levelsPanel.SetActive(false);
             _skinsPanel.SetActive(false);
             _mainMenuPanel.SetActive(true);
             DCAudioManager.Instance.ClickSound();
-        }
-
-        public void ExitButton()
-        {
-            Application.Quit();
         }
     }
 }

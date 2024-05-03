@@ -12,15 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9518fc5d9b0b4b93874fee09a63c8e18, type: 3}
   m_Name: PlayerSkins
   m_EditorClassIdentifier: 
-  _skinColors:
-  - {r: 0.3529412, g: 0.4862745, b: 1, a: 1}
-  - {r: 1, g: 0.2784314, b: 0.2784314, a: 1}
-  - {r: 0.2784314, g: 1, b: 0.4862745, a: 1}
   _materials:
   - {fileID: 2100000, guid: e2f5d73d49d5cb24ebaeca6b7ccdea52, type: 2}
   - {fileID: 2100000, guid: 77bdac7337eb2544fa533d2ab2ef5c77, type: 2}
   - {fileID: 2100000, guid: d4857b72c8fba9f4487f95402beb085e, type: 2}
+  - {fileID: 2100000, guid: cf2333f942b2fbd4eab56bbfa11bbd60, type: 2}
+  - {fileID: 2100000, guid: 74f35a11888e80b4d95b405248f9037b, type: 2}
+  - {fileID: 2100000, guid: 02db5a1f5689d634a9eb2d1eed8622a7, type: 2}
+  - {fileID: 2100000, guid: e6b049db309e91944a570cd8c6a4bba4, type: 2}
+  - {fileID: 2100000, guid: 33e62c3e8a0f9ed469167f2e613ebafc, type: 2}
   _skinMeshes:
   - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   - {fileID: 4300000, guid: 5ba29a0264fb0c549a4da660881bed2f, type: 2}
+  - {fileID: -7628182941106214636, guid: 3918c666940c34d40aa7ed579a3c5013, type: 3}
+  - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 4300000, guid: 5ba29a0264fb0c549a4da660881bed2f, type: 2}
+  - {fileID: -7628182941106214636, guid: 3918c666940c34d40aa7ed579a3c5013, type: 3}
