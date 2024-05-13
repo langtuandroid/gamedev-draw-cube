@@ -50,7 +50,7 @@ public class PurchaseIDHolder : ScriptableObject
     [SerializeField]
     private string _subscriptionYearID_Test  = "sub.gamedev.test.one.year";
     [SerializeField]
-    private string _subscriptionForeverID_Test  = "sub.gamedev.test.forever";
+    private string _subscriptionForeverID_Test  = "sub.gamedev.deletead.forever";
     
     [SerializeField]
     private string _buy100Id_Test  = "test.gamedev.buy100";

@@ -162,7 +162,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.noname.digital.gamedev.drawcube
     Standalone: com.DefaultCompany.2DProject
-    iPhone: com.noname.digital.gamedev.drawcube
+    iPhone: com.gamedev.digital.test
   buildNumber:
     Bratwurst: 0
     Standalone: 0
